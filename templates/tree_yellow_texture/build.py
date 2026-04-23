@@ -164,7 +164,7 @@ def slide_title(prs):
     _add_text(slide, left + Inches(0.35), rule_y + Inches(0.15),
               Inches(11), Inches(0.4),
               "Speaker Name  ·  Affiliation  ·  Month Year",
-              font=T.FONT_BODY, size=Pt(14), color=T.INK)
+              font=T.FONT_BODY, size=Pt(16), color=T.INK)
 
 
 def slide_section(prs, number="01", title="Section Heading"):
@@ -194,9 +194,9 @@ def slide_section(prs, number="01", title="Section Heading"):
               anchor=MSO_ANCHOR.MIDDLE)
 
     _add_text(slide, rule_x + Inches(0.3), row_top + row_h + Inches(0.05),
-              Inches(8), Inches(0.4),
+              Inches(8), Inches(0.5),
               "An optional one-line summary of this section",
-              font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True)
+              font=T.FONT_BODY, size=Pt(18), color=T.MUTED, italic=True)
 
 
 def slide_content(prs, title="Slide title", bullets=None):
@@ -217,8 +217,8 @@ def slide_content(prs, title="Slide title", bullets=None):
 
     _add_bullets(slide, body_left, body_top, body_w, body_h, bullets)
 
-    _add_text(slide, body_left, T.SLIDE_H - Inches(0.4),
-              body_w, Inches(0.3),
+    _add_text(slide, body_left, T.SLIDE_H - Inches(0.45),
+              body_w, Inches(0.35),
               "Footer / citation / page note",
               font=T.FONT_BODY, size=T.SZ_CAPTION, color=T.MUTED, italic=True)
 
@@ -240,7 +240,7 @@ def slide_two_column(prs, title="Slide title"):
     frame.line.width = Emu(6350)
     _add_text(slide, body_left, body_top, col_w, body_h,
               "[ figure / diagram ]",
-              font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True,
+              font=T.FONT_BODY, size=Pt(18), color=T.MUTED, italic=True,
               align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
     text_x = body_left + col_w + Inches(0.5)
@@ -253,7 +253,7 @@ def slide_two_column(prs, title="Slide title"):
                  ["Explain what the figure shows",
                   "Call out the one feature worth noting",
                   "Relate it back to the slide's main point"],
-                 size=Pt(17))
+                 size=Pt(18))
 
 
 def slide_thanks(prs):
@@ -278,14 +278,14 @@ def slide_thanks(prs):
     rule.line.width = Emu(19050)
 
     _add_text(slide, left + Inches(0.35), rule_y + Inches(0.2),
-              Inches(10), Inches(0.5),
+              Inches(10), Inches(0.6),
               "Questions & discussion",
-              font=T.FONT_BODY, size=Pt(20), color=T.MUTED, italic=True)
+              font=T.FONT_BODY, size=Pt(22), color=T.MUTED, italic=True)
 
-    _add_text(slide, left + Inches(0.35), rule_y + Inches(1.0),
-              Inches(10), Inches(0.4),
+    _add_text(slide, left + Inches(0.35), rule_y + Inches(1.1),
+              Inches(10), Inches(0.45),
               "speaker@kcl.ac.uk  ·  kclnlp.github.io",
-              font=T.FONT_BODY, size=Pt(14), color=T.INK)
+              font=T.FONT_BODY, size=Pt(16), color=T.INK)
 
 
 def build():

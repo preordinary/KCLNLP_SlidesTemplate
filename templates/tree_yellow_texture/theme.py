@@ -25,7 +25,7 @@ CREAM = (0xF2, 0xE6, 0xCC)
 ORANGE = (0xD9, 0x4A, 0x1C)
 GOLD = (0xC8, 0x96, 0x3E)
 INK = (0x1F, 0x1F, 0x1F)
-MUTED = (0x70, 0x70, 0x70)
+MUTED = (0x55, 0x55, 0x55)
 
 # Title font: Georgia (warm display serif). Body font: Cambria (Roman serif
 # designed for on-screen reading). Both serif, both widely installed; the
@@ -34,9 +34,9 @@ FONT_HEAD = "Georgia"
 FONT_BODY = "Cambria"
 
 SZ_TITLE = Pt(44)
-SZ_SUBTITLE = Pt(20)
+SZ_SUBTITLE = Pt(22)
 SZ_SECTION = Pt(36)
 SZ_HEADER_TITLE = Pt(26)
 SZ_HEADER_NOW = Pt(16)
 SZ_BODY = Pt(20)
-SZ_CAPTION = Pt(11)
+SZ_CAPTION = Pt(14)
