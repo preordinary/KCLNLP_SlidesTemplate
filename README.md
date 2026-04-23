@@ -18,6 +18,19 @@ pip install -r requirements.txt
 python templates/tree_yellow_texture/build.py
 ```
 
+### Royal Blue
+
+A formal academic 16:9 deck. White background, with a thick royal-blue rule framing the header; the slide title sits on the left as **"Now: <title>"** and the three logos on the right. Monochromatic blue-and-white palette — conference-poster / journal-house feel. Typography: Calibri throughout.
+
+- Built deck: [`templates/royal_blue/KCLNLP_RoyalBlue.pptx`](templates/royal_blue/KCLNLP_RoyalBlue.pptx)
+- Same layouts as Tree Yellow: title (+ centered variant), section divider, content, two-column, thank-you / Q&A (+ centered variant).
+
+Regenerate from source:
+
+```bash
+python templates/royal_blue/build.py
+```
+
 Planned template categories:
 
 - **Conference / paper talk** — for presenting accepted papers at venues like ACL, EMNLP, NAACL.
