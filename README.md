@@ -24,21 +24,11 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's style. H
 
 ### Tree Yellow poster
 
-Cream header band, thick orange rule, orange accent bar and section underlines, muted figure outline — matches the Tree Yellow deck.
-
 - Download: [`templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx`](templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx)
 
 ### Royal Blue poster
 
-White background, thick royal-blue rule, blue accent bar and section underlines, blue figure outline — matches the Royal Blue deck.
-
 - Download: [`templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx`](templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx)
-
-Planned additions:
-
-- **Conference / paper talk** — for presenting accepted papers at venues like ACL, EMNLP, NAACL.
-- **Group meeting** — lightweight template for reading groups and internal updates.
-- **General outreach** — for keynotes, public talks, and lab introductions.
 
 ## Usage
 
