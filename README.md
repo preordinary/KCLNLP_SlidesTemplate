@@ -6,7 +6,7 @@ PowerPoint templates for the **KCL NLP** research group, designed for consistent
 
 ### Tree Yellow Texture
 
-A warm, parchment-toned 16:9 deck with Georgia/Calibri typography and a softly inked tree-branch motif — designed to feel like a well-worn academic notebook. Every slide carries the KCL, KCLNLP, and Alan Turing Institute logos in the header.
+A minimal 16:9 deck: white background, Calibri typography, a small warm-gold accent bar by each title, and a single gold rule beneath the header. Every slide carries the KCL, KCLNLP, and Alan Turing Institute logos in the top-right header.
 
 - Built deck: [`templates/tree_yellow_texture/KCLNLP_TreeYellow.pptx`](templates/tree_yellow_texture/KCLNLP_TreeYellow.pptx)
 - Layouts included: title, section divider, content (title + bullets), two-column (figure + text), thank-you / Q&A.
@@ -29,7 +29,7 @@ Planned template categories:
 
 1. Open the template `.pptx` in PowerPoint / Keynote / LibreOffice Impress.
 2. Replace the placeholder content with your own, keeping the logo header intact.
-3. Prefer Georgia for headings and Calibri for body text to stay on-theme.
+3. Prefer Calibri throughout; use the gold accent (`#C8963E`) sparingly.
 
 ## Contributing
 
