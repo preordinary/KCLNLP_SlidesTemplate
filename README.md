@@ -42,9 +42,17 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's style. H
 
 ### Tree Yellow poster
 
+<p align="center">
+  <img src="assets/images/tree_yellow_poster.png" alt="Tree Yellow A0 poster" width="360">
+</p>
+
 - Download: [`templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx`](templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx)
 
 ### Royal Blue poster
+
+<p align="center">
+  <img src="assets/images/royal_blue_poster.png" alt="Royal Blue A0 poster" width="360">
+</p>
 
 - Download: [`templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx`](templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx)
 
