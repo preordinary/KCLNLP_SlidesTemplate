@@ -30,6 +30,29 @@ def rgb(tup):
     return RGBColor(*tup)
 
 
+CROP_DIR = Path(__file__).resolve().parents[2] / "assets" / "logos" / "_trimmed"
+
+
+def _trimmed_logo(path: Path) -> Path:
+    """Return a cached copy of the logo cropped to its visible (alpha) bbox.
+
+    Raw PNGs carry different amounts of transparent padding, so scaling them
+    to the same image height produces different visible heights. Trimming to
+    the alpha bbox first normalises visible height and inter-logo gaps.
+    """
+    CROP_DIR.mkdir(parents=True, exist_ok=True)
+    dst = CROP_DIR / path.name
+    if dst.exists() and dst.stat().st_mtime >= path.stat().st_mtime:
+        return dst
+    with Image.open(path) as im:
+        im = im.convert("RGBA")
+        bbox = im.getbbox()
+        if bbox:
+            im = im.crop(bbox)
+        im.save(dst, "PNG", optimize=True)
+    return dst
+
+
 def _logo_width(path, height_emu):
     with Image.open(path) as im:
         w, h = im.size
@@ -44,14 +67,15 @@ def add_header(slide, title: str | None = None):
     band.fill.fore_color.rgb = rgb(T.CREAM)
     band.line.fill.background()
 
+    trimmed = [_trimmed_logo(p) for p in T.LOGOS]
     top = (T.HEADER_H - T.LOGO_H) // 2
     right = T.SLIDE_W - T.EDGE_PAD
-    widths = [_logo_width(p, T.LOGO_H) for p in T.LOGOS]
-    total = sum(widths) + T.LOGO_GAP * (len(T.LOGOS) - 1)
+    widths = [_logo_width(p, T.LOGO_H) for p in trimmed]
+    total = sum(widths) + T.LOGO_GAP * (len(trimmed) - 1)
     x = right - total
-    for i, path in enumerate(T.LOGOS):
+    for i, path in enumerate(trimmed):
         slide.shapes.add_picture(str(path), x, top, height=T.LOGO_H)
-        x += widths[i] + (T.LOGO_GAP if i < len(T.LOGOS) - 1 else 0)
+        x += widths[i] + (T.LOGO_GAP if i < len(trimmed) - 1 else 0)
 
     if title:
         logos_left = right - total
