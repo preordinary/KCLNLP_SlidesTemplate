@@ -9,7 +9,7 @@ PowerPoint templates for the **KCL NLP** research group, designed for consistent
 A minimal 16:9 deck. A cream header band carries the slide title on the left (as **"Now: <title>"**) and the KCL, KCLNLP, and Alan Turing Institute logos on the right, separated from the body by a thick orange rule. Titles live in the header so the body has the full slide to breathe. Typography: **Calibri** throughout (bold + italic for the header title, regular for body).
 
 - Built deck: [`templates/tree_yellow_texture/KCLNLP_TreeYellow.pptx`](templates/tree_yellow_texture/KCLNLP_TreeYellow.pptx)
-- Layouts included: title, section divider, content (title + bullets), two-column (figure + text), thank-you / Q&A.
+- Layouts included: title (left-aligned + centered variants), section divider, content (title + bullets), two-column (figure + text), thank-you / Q&A (left-aligned + centered variants).
 
 Regenerate from source:
 

@@ -168,6 +168,53 @@ def slide_title(prs):
               font=T.FONT_BODY, size=Pt(16), color=T.INK)
 
 
+def slide_title_centered(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    add_header(slide)
+
+    body_top = T.HEADER_H
+    body_h = T.SLIDE_H - body_top
+    block_h = Inches(3.6)
+    block_top = body_top + (body_h - block_h) // 2
+
+    accent_w = Inches(1.6)
+    accent = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE,
+        (T.SLIDE_W - accent_w) // 2, block_top,
+        accent_w, Inches(0.06),
+    )
+    accent.fill.solid()
+    accent.fill.fore_color.rgb = rgb(T.ORANGE)
+    accent.line.fill.background()
+
+    _add_text(slide, Inches(0), block_top + Inches(0.35),
+              T.SLIDE_W, Inches(1.4),
+              "Talk Title Goes Here",
+              font=T.FONT_HEAD, size=T.SZ_TITLE, color=T.INK, bold=True,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    _add_text(slide, Inches(0), block_top + Inches(1.85),
+              T.SLIDE_W, Inches(0.7),
+              "A concise subtitle or one-line abstract",
+              font=T.FONT_BODY, size=T.SZ_SUBTITLE, color=T.MUTED, italic=True,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    rule_y = block_top + Inches(2.75)
+    rule_half = Inches(1.1)
+    cx = T.SLIDE_W // 2
+    rule = slide.shapes.add_connector(
+        1, cx - rule_half, rule_y, cx + rule_half, rule_y
+    )
+    rule.line.color.rgb = rgb(T.ORANGE)
+    rule.line.width = Emu(19050)
+
+    _add_text(slide, Inches(0), rule_y + Inches(0.2),
+              T.SLIDE_W, Inches(0.5),
+              "Speaker Name  ·  Affiliation  ·  Month Year",
+              font=T.FONT_BODY, size=Pt(16), color=T.INK,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.TOP)
+
+
 def slide_section(prs, number="01", title="Section Heading"):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_header(slide, title=title)
@@ -289,16 +336,56 @@ def slide_thanks(prs):
               font=T.FONT_BODY, size=Pt(16), color=T.INK)
 
 
+def slide_thanks_centered(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    add_header(slide)
+
+    body_top = T.HEADER_H
+    body_h = T.SLIDE_H - body_top
+    block_h = Inches(3.4)
+    block_top = body_top + (body_h - block_h) // 2
+
+    accent_w = Inches(1.8)
+    accent = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE,
+        (T.SLIDE_W - accent_w) // 2, block_top,
+        accent_w, Inches(0.06),
+    )
+    accent.fill.solid()
+    accent.fill.fore_color.rgb = rgb(T.ORANGE)
+    accent.line.fill.background()
+
+    _add_text(slide, Inches(0), block_top + Inches(0.35),
+              T.SLIDE_W, Inches(1.6),
+              "Thank you",
+              font=T.FONT_HEAD, size=Pt(56), color=T.INK, bold=True,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    _add_text(slide, Inches(0), block_top + Inches(2.1),
+              T.SLIDE_W, Inches(0.6),
+              "Questions & discussion",
+              font=T.FONT_BODY, size=Pt(22), color=T.MUTED, italic=True,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+
+    _add_text(slide, Inches(0), block_top + Inches(2.85),
+              T.SLIDE_W, Inches(0.45),
+              "speaker@kcl.ac.uk  ·  kclnlp.github.io",
+              font=T.FONT_BODY, size=Pt(16), color=T.INK,
+              align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.TOP)
+
+
 def build():
     prs = Presentation()
     prs.slide_width = T.SLIDE_W
     prs.slide_height = T.SLIDE_H
 
     slide_title(prs)
+    slide_title_centered(prs)
     slide_section(prs, number="01", title="Section heading")
     slide_content(prs, title="Slide title")
     slide_two_column(prs, title="Slide title")
     slide_thanks(prs)
+    slide_thanks_centered(prs)
 
     prs.save(str(OUTPUT))
     print(f"wrote {OUTPUT}")
