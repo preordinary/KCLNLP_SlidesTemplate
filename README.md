@@ -8,6 +8,10 @@ PowerPoint templates for the **KCL NLP** research group, designed for consistent
 
 A warm 16:9 deck. A cream header band carries the slide title on the left (as **"Now: <title>"**) and the KCL, KCLNLP, and Alan Turing Institute logos on the right, separated from the body by a thick orange rule. Titles live in the header so the body has the full slide for content. Typography: Calibri throughout.
 
+| Title page | Content page |
+| --- | --- |
+| ![Tree Yellow title page](assets/images/tree_yellow_title.png) | ![Tree Yellow content page](assets/images/tree_yellow_content.png) |
+
 - Download: [`templates/tree_yellow/KCLNLP_TreeYellow.pptx`](templates/tree_yellow/KCLNLP_TreeYellow.pptx)
 - Layouts included: title (left-aligned + centered variants), section divider, content (title + bullets), two-column (figure + text), thank-you / Q&A (left-aligned + centered variants).
 - Main colors:
@@ -19,6 +23,10 @@ A warm 16:9 deck. A cream header band carries the slide title on the left (as **
 ### Royal Blue
 
 A formal academic 16:9 deck. White background with a thick royal-blue rule framing the header; the slide title sits on the left as **"Now: <title>"** and the three logos on the right. Monochromatic blue-and-white palette — conference-poster / journal-house feel. Typography: Calibri throughout.
+
+| Title page | Content page |
+| --- | --- |
+| ![Royal Blue title page](assets/images/royal_blue_title.png) | ![Royal Blue content page](assets/images/royal_blue_content.png) |
 
 - Download: [`templates/royal_blue/KCLNLP_RoyalBlue.pptx`](templates/royal_blue/KCLNLP_RoyalBlue.pptx)
 - Same layouts as Tree Yellow.
