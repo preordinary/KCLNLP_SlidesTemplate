@@ -27,11 +27,8 @@ GOLD = (0xC8, 0x96, 0x3E)
 INK = (0x1F, 0x1F, 0x1F)
 MUTED = (0x55, 0x55, 0x55)
 
-# Title font: Georgia (warm display serif). Body font: Cambria (Roman serif
-# designed for on-screen reading). Both serif, both widely installed; the
-# weight/proportion difference lets titles lead without clashing.
-FONT_HEAD = "Georgia"
-FONT_BODY = "Cambria"
+FONT_HEAD = "Calibri"
+FONT_BODY = "Calibri"
 
 SZ_TITLE = Pt(44)
 SZ_SUBTITLE = Pt(22)
