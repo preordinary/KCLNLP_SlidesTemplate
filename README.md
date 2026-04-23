@@ -18,19 +18,35 @@ A formal academic 16:9 deck. White background with a thick royal-blue rule frami
 - Download: [`templates/royal_blue/KCLNLP_RoyalBlue.pptx`](templates/royal_blue/KCLNLP_RoyalBlue.pptx)
 - Same layouts as Tree Yellow.
 
+## Posters
+
+A0 portrait (841 × 1189 mm) single-page posters that match each deck's style. Header band carries the poster title, authors, affiliations, and the three logos; the body is laid out as three columns (Introduction / Method, Results with a figure placeholder, Conclusion / References / Acknowledgements), with a contact footer and a QR-code placeholder in the bottom-right.
+
+### Tree Yellow poster
+
+Cream header band, thick orange rule, orange accent bar and section underlines, muted figure outline — matches the Tree Yellow deck.
+
+- Download: [`templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx`](templates/tree_yellow/KCLNLP_TreeYellow_Poster.pptx)
+
+### Royal Blue poster
+
+White background, thick royal-blue rule, blue accent bar and section underlines, blue figure outline — matches the Royal Blue deck.
+
+- Download: [`templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx`](templates/royal_blue/KCLNLP_RoyalBlue_Poster.pptx)
+
 Planned additions:
 
 - **Conference / paper talk** — for presenting accepted papers at venues like ACL, EMNLP, NAACL.
 - **Group meeting** — lightweight template for reading groups and internal updates.
-- **Poster** — A0 poster template for conference poster sessions.
 - **General outreach** — for keynotes, public talks, and lab introductions.
 
 ## Usage
 
-1. Download the `.pptx` file for the template you want.
+1. Download the `.pptx` file for the template you want (deck or poster).
 2. Open in PowerPoint / Keynote / LibreOffice Impress.
 3. Replace the placeholder content with your own, keeping the logo header intact.
-4. Put the slide title in the header (not the body) so the body has room for content.
+4. For decks, put the slide title in the header (not the body) so the body has room for content.
+5. For posters, swap the figure placeholder for your own chart and replace the QR-code box with a link to the paper/code.
 
 ## Contributing
 
