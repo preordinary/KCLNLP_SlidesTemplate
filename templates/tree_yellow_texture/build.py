@@ -172,24 +172,28 @@ def slide_section(prs, number="01", title="Section Heading"):
     add_header(slide, title=title)
 
     left = T.EDGE_PAD + Inches(0.5)
-    y = Inches(3.2)
+    row_top = Inches(3.15)
+    row_h = Inches(1.4)
 
-    _add_text(slide, left, y, Inches(1.8), Inches(1.2),
-              number, font=T.FONT_HEAD, size=Pt(56), color=T.ORANGE, bold=True)
+    _add_text(slide, left, row_top, Inches(1.8), row_h,
+              number, font=T.FONT_HEAD, size=Pt(56), color=T.ORANGE, bold=True,
+              anchor=MSO_ANCHOR.MIDDLE)
 
     rule_x = left + Inches(1.9)
     rule = slide.shapes.add_connector(
-        1, rule_x, y + Inches(0.25), rule_x, y + Inches(1.15)
+        1, rule_x, row_top + Inches(0.25),
+        rule_x, row_top + row_h - Inches(0.25)
     )
     rule.line.color.rgb = rgb(T.ORANGE)
     rule.line.width = Emu(12700)
 
-    _add_text(slide, rule_x + Inches(0.3), y + Inches(0.2),
-              Inches(8), Inches(1.0),
+    _add_text(slide, rule_x + Inches(0.3), row_top,
+              Inches(8), row_h,
               title, font=T.FONT_HEAD, size=T.SZ_SECTION,
-              color=T.INK, bold=True)
+              color=T.INK, bold=True,
+              anchor=MSO_ANCHOR.MIDDLE)
 
-    _add_text(slide, rule_x + Inches(0.3), y + Inches(1.05),
+    _add_text(slide, rule_x + Inches(0.3), row_top + row_h + Inches(0.05),
               Inches(8), Inches(0.4),
               "An optional one-line summary of this section",
               font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True)
