@@ -15,8 +15,8 @@ LOGOS = [
 SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)
 
-HEADER_H = Inches(0.85)
-LOGO_H = Inches(0.55)
+HEADER_H = Inches(1.05)
+LOGO_H = Inches(0.6)
 LOGO_GAP = Inches(0.22)
 EDGE_PAD = Inches(0.45)
 
@@ -27,13 +27,16 @@ GOLD = (0xC8, 0x96, 0x3E)
 INK = (0x1F, 0x1F, 0x1F)
 MUTED = (0x70, 0x70, 0x70)
 
-FONT_HEAD = "Calibri"
-FONT_BODY = "Calibri"
+# Title font: Georgia (warm display serif). Body font: Cambria (Roman serif
+# designed for on-screen reading). Both serif, both widely installed; the
+# weight/proportion difference lets titles lead without clashing.
+FONT_HEAD = "Georgia"
+FONT_BODY = "Cambria"
 
-SZ_TITLE = Pt(40)
-SZ_SUBTITLE = Pt(18)
-SZ_SECTION = Pt(34)
-SZ_SLIDE_TITLE = Pt(26)
-SZ_BODY = Pt(18)
+SZ_TITLE = Pt(44)
+SZ_SUBTITLE = Pt(20)
+SZ_SECTION = Pt(36)
+SZ_HEADER_TITLE = Pt(26)
+SZ_HEADER_NOW = Pt(16)
+SZ_BODY = Pt(20)
 SZ_CAPTION = Pt(11)
-SZ_RUNNING = Pt(16)

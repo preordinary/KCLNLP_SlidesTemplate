@@ -1,6 +1,11 @@
 """Build the Tree Yellow Texture demo deck.
 
 Run: python templates/tree_yellow_texture/build.py
+
+Convention: slide titles live inside the cream header band (left),
+freeing the body for content. Use the ``title=`` argument on
+``slide_content`` / ``slide_two_column`` — do not add a second title
+inside the body.
 """
 from __future__ import annotations
 
@@ -31,7 +36,7 @@ def _logo_width(path, height_emu):
     return int(height_emu * (w / h))
 
 
-def add_header(slide, running_title: str | None = None):
+def add_header(slide, title: str | None = None):
     band = slide.shapes.add_shape(
         MSO_SHAPE.RECTANGLE, 0, 0, T.SLIDE_W, T.HEADER_H
     )
@@ -48,9 +53,11 @@ def add_header(slide, running_title: str | None = None):
         slide.shapes.add_picture(str(path), x, top, height=T.LOGO_H)
         x += widths[i] + (T.LOGO_GAP if i < len(T.LOGOS) - 1 else 0)
 
-    if running_title:
+    if title:
+        logos_left = right - total
+        title_w = logos_left - T.EDGE_PAD - Inches(0.3)
         box = slide.shapes.add_textbox(
-            T.EDGE_PAD, 0, Inches(8.0), T.HEADER_H
+            T.EDGE_PAD, 0, title_w, T.HEADER_H
         )
         tf = box.text_frame
         tf.margin_left = Emu(0); tf.margin_right = Emu(0)
@@ -59,19 +66,20 @@ def add_header(slide, running_title: str | None = None):
         tf.vertical_anchor = MSO_ANCHOR.MIDDLE
         p = tf.paragraphs[0]
         p.alignment = PP_ALIGN.LEFT
+
         now_run = p.add_run()
-        now_run.text = "Now: "
+        now_run.text = "Now:  "
         now_run.font.name = T.FONT_HEAD
-        now_run.font.size = T.SZ_RUNNING
+        now_run.font.size = T.SZ_HEADER_NOW
         now_run.font.bold = True
         now_run.font.italic = True
         now_run.font.color.rgb = rgb(T.ORANGE)
 
         title_run = p.add_run()
-        title_run.text = running_title
+        title_run.text = title
         title_run.font.name = T.FONT_HEAD
-        title_run.font.size = T.SZ_RUNNING
-        title_run.font.italic = True
+        title_run.font.size = T.SZ_HEADER_TITLE
+        title_run.font.bold = True
         title_run.font.color.rgb = rgb(T.INK)
 
     rule_y = T.HEADER_H
@@ -118,7 +126,7 @@ def _add_bullets(slide, left, top, width, height, items, *, size=T.SZ_BODY):
     for i, item in enumerate(items):
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
         p.alignment = PP_ALIGN.LEFT
-        p.space_after = Pt(8)
+        p.space_after = Pt(10)
         run = p.add_run()
         run.text = f"•  {item}"
         run.font.name = T.FONT_BODY
@@ -132,7 +140,7 @@ def slide_title(prs):
     add_header(slide)
 
     left = T.EDGE_PAD + Inches(0.2)
-    title_top = Inches(2.6)
+    title_top = Inches(2.7)
 
     add_title_accent(slide, left, title_top + Inches(0.1), Inches(1.4))
     _add_text(slide, left + Inches(0.35), title_top,
@@ -159,13 +167,12 @@ def slide_title(prs):
               font=T.FONT_BODY, size=Pt(14), color=T.INK)
 
 
-def slide_section(prs, number="01", title="Section Heading",
-                  running_title=None):
+def slide_section(prs, number="01", title="Section Heading"):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_header(slide, running_title=running_title or title)
+    add_header(slide, title=title)
 
     left = T.EDGE_PAD + Inches(0.5)
-    y = Inches(3.0)
+    y = Inches(3.2)
 
     _add_text(slide, left, y, Inches(1.8), Inches(1.2),
               number, font=T.FONT_HEAD, size=Pt(56), color=T.ORANGE, bold=True)
@@ -188,77 +195,61 @@ def slide_section(prs, number="01", title="Section Heading",
               font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True)
 
 
-def slide_content(prs, title="Slide title", bullets=None,
-                  running_title="Section name"):
+def slide_content(prs, title="Slide title goes in the header", bullets=None):
     bullets = bullets or [
         "Lead with the main claim — what the reader should take away",
         "Supporting detail, ideally a number or concrete example",
         "A second supporting point that extends the first",
+        "A fourth line of room — titles live in the header, so the body breathes",
         "Edge case, caveat, or the one thing not to forget",
     ]
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_header(slide, running_title=running_title)
+    add_header(slide, title=title)
 
-    left = T.EDGE_PAD + Inches(0.1)
-    title_top = T.HEADER_H + Inches(0.45)
+    body_left = T.EDGE_PAD + Inches(0.2)
+    body_top = T.HEADER_H + Inches(0.35)
+    body_w = T.SLIDE_W - body_left - T.EDGE_PAD
+    body_h = T.SLIDE_H - body_top - Inches(0.55)
 
-    add_title_accent(slide, left, title_top + Inches(0.08), Inches(0.7))
-    _add_text(slide, left + Inches(0.3), title_top,
-              Inches(11), Inches(0.9),
-              title, font=T.FONT_HEAD, size=T.SZ_SLIDE_TITLE,
-              color=T.INK, bold=True)
+    _add_bullets(slide, body_left, body_top, body_w, body_h, bullets)
 
-    _add_bullets(slide, left + Inches(0.3), title_top + Inches(1.1),
-                 Inches(12.0), Inches(4.4), bullets)
-
-    _add_text(slide, left + Inches(0.3),
-              T.SLIDE_H - Inches(0.4),
-              Inches(12.0), Inches(0.3),
+    _add_text(slide, body_left, T.SLIDE_H - Inches(0.4),
+              body_w, Inches(0.3),
               "Footer / citation / page note",
               font=T.FONT_BODY, size=T.SZ_CAPTION, color=T.MUTED, italic=True)
 
 
-def slide_two_column(prs, title="Figure or image + text",
-                     running_title="Section name"):
+def slide_two_column(prs, title="Figure and commentary"):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_header(slide, running_title=running_title)
+    add_header(slide, title=title)
 
-    left = T.EDGE_PAD + Inches(0.1)
-    title_top = T.HEADER_H + Inches(0.45)
-
-    add_title_accent(slide, left, title_top + Inches(0.08), Inches(0.7))
-    _add_text(slide, left + Inches(0.3), title_top,
-              Inches(11), Inches(0.9),
-              title, font=T.FONT_HEAD, size=T.SZ_SLIDE_TITLE,
-              color=T.INK, bold=True)
-
-    col_x = left + Inches(0.3)
-    col_top = title_top + Inches(1.1)
-    col_h = Inches(4.3)
-    col_w = Inches(5.8)
+    body_left = T.EDGE_PAD + Inches(0.2)
+    body_top = T.HEADER_H + Inches(0.35)
+    body_h = T.SLIDE_H - body_top - Inches(0.5)
+    col_w = Inches(6.0)
 
     frame = slide.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, col_x, col_top, col_w, col_h
+        MSO_SHAPE.RECTANGLE, body_left, body_top, col_w, body_h
     )
     frame.fill.background()
     frame.line.color.rgb = rgb(T.MUTED)
     frame.line.width = Emu(6350)
-    _add_text(slide, col_x, col_top, col_w, col_h,
+    _add_text(slide, body_left, body_top, col_w, body_h,
               "[ figure / diagram ]",
               font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True,
               align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 
-    text_x = col_x + col_w + Inches(0.5)
+    text_x = body_left + col_w + Inches(0.5)
     text_w = T.SLIDE_W - text_x - T.EDGE_PAD
-    _add_text(slide, text_x, col_top, text_w, Inches(0.5),
+    _add_text(slide, text_x, body_top, text_w, Inches(0.5),
               "Caption or claim",
-              font=T.FONT_HEAD, size=Pt(20), color=T.INK, bold=True)
-    _add_bullets(slide, text_x, col_top + Inches(0.7),
-                 text_w, col_h - Inches(0.7),
+              font=T.FONT_HEAD, size=Pt(22), color=T.INK, bold=True)
+    _add_bullets(slide, text_x, body_top + Inches(0.8),
+                 text_w, body_h - Inches(0.8),
                  ["Explain what the figure shows",
                   "Call out the one feature worth noting",
                   "Relate it back to the slide's main point"],
-                 size=Pt(15))
+                 size=Pt(17))
 
 
 def slide_thanks(prs):
@@ -299,10 +290,9 @@ def build():
     prs.slide_height = T.SLIDE_H
 
     slide_title(prs)
-    slide_section(prs, number="01", title="Motivation",
-                  running_title="Motivation")
-    slide_content(prs, running_title="Motivation")
-    slide_two_column(prs, running_title="Motivation")
+    slide_section(prs, number="01", title="Motivation")
+    slide_content(prs, title="Why retrieval is hard")
+    slide_two_column(prs, title="Model architecture")
     slide_thanks(prs)
 
     prs.save(str(OUTPUT))
