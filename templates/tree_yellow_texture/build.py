@@ -31,9 +31,16 @@ def _logo_width(path, height_emu):
     return int(height_emu * (w / h))
 
 
-def add_logo_header(slide, with_rule=True):
+def add_header(slide, running_title: str | None = None):
+    band = slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, 0, 0, T.SLIDE_W, T.HEADER_H
+    )
+    band.fill.solid()
+    band.fill.fore_color.rgb = rgb(T.CREAM)
+    band.line.fill.background()
+
+    top = (T.HEADER_H - T.LOGO_H) // 2
     right = T.SLIDE_W - T.EDGE_PAD
-    top = Inches(0.22)
     widths = [_logo_width(p, T.LOGO_H) for p in T.LOGOS]
     total = sum(widths) + T.LOGO_GAP * (len(T.LOGOS) - 1)
     x = right - total
@@ -41,21 +48,44 @@ def add_logo_header(slide, with_rule=True):
         slide.shapes.add_picture(str(path), x, top, height=T.LOGO_H)
         x += widths[i] + (T.LOGO_GAP if i < len(T.LOGOS) - 1 else 0)
 
-    if with_rule:
-        rule_y = T.HEADER_H + Inches(0.20)
-        rule = slide.shapes.add_connector(
-            1, T.EDGE_PAD, rule_y, T.SLIDE_W - T.EDGE_PAD, rule_y
+    if running_title:
+        box = slide.shapes.add_textbox(
+            T.EDGE_PAD, 0, Inches(8.0), T.HEADER_H
         )
-        rule.line.color.rgb = rgb(T.GOLD)
-        rule.line.width = Emu(9525)
+        tf = box.text_frame
+        tf.margin_left = Emu(0); tf.margin_right = Emu(0)
+        tf.margin_top = Emu(0); tf.margin_bottom = Emu(0)
+        tf.word_wrap = True
+        tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+        p = tf.paragraphs[0]
+        p.alignment = PP_ALIGN.LEFT
+        now_run = p.add_run()
+        now_run.text = "Now: "
+        now_run.font.name = T.FONT_HEAD
+        now_run.font.size = T.SZ_RUNNING
+        now_run.font.bold = True
+        now_run.font.italic = True
+        now_run.font.color.rgb = rgb(T.ORANGE)
+
+        title_run = p.add_run()
+        title_run.text = running_title
+        title_run.font.name = T.FONT_HEAD
+        title_run.font.size = T.SZ_RUNNING
+        title_run.font.italic = True
+        title_run.font.color.rgb = rgb(T.INK)
+
+    rule_y = T.HEADER_H
+    rule = slide.shapes.add_connector(
+        1, 0, rule_y, T.SLIDE_W, rule_y
+    )
+    rule.line.color.rgb = rgb(T.ORANGE)
+    rule.line.width = Emu(19050)
 
 
 def add_title_accent(slide, x, y, h):
-    bar = slide.shapes.add_shape(
-        MSO_SHAPE.RECTANGLE, x, y, Inches(0.12), h
-    )
+    bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, x, y, Inches(0.12), h)
     bar.fill.solid()
-    bar.fill.fore_color.rgb = rgb(T.GOLD)
+    bar.fill.fore_color.rgb = rgb(T.ORANGE)
     bar.line.fill.background()
 
 
@@ -63,10 +93,8 @@ def _add_text(slide, left, top, width, height, text, *, font, size, color,
               bold=False, italic=False, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP):
     box = slide.shapes.add_textbox(left, top, width, height)
     tf = box.text_frame
-    tf.margin_left = Emu(0)
-    tf.margin_right = Emu(0)
-    tf.margin_top = Emu(0)
-    tf.margin_bottom = Emu(0)
+    tf.margin_left = Emu(0); tf.margin_right = Emu(0)
+    tf.margin_top = Emu(0); tf.margin_bottom = Emu(0)
     tf.word_wrap = True
     tf.vertical_anchor = anchor
     p = tf.paragraphs[0]
@@ -84,10 +112,8 @@ def _add_text(slide, left, top, width, height, text, *, font, size, color,
 def _add_bullets(slide, left, top, width, height, items, *, size=T.SZ_BODY):
     box = slide.shapes.add_textbox(left, top, width, height)
     tf = box.text_frame
-    tf.margin_left = Emu(0)
-    tf.margin_right = Emu(0)
-    tf.margin_top = Emu(0)
-    tf.margin_bottom = Emu(0)
+    tf.margin_left = Emu(0); tf.margin_right = Emu(0)
+    tf.margin_top = Emu(0); tf.margin_bottom = Emu(0)
     tf.word_wrap = True
     for i, item in enumerate(items):
         p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
@@ -103,7 +129,7 @@ def _add_bullets(slide, left, top, width, height, items, *, size=T.SZ_BODY):
 
 def slide_title(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_logo_header(slide)
+    add_header(slide)
 
     left = T.EDGE_PAD + Inches(0.2)
     title_top = Inches(2.6)
@@ -124,7 +150,7 @@ def slide_title(prs):
         1, left + Inches(0.35), rule_y,
         left + Inches(2.2), rule_y
     )
-    rule.line.color.rgb = rgb(T.GOLD)
+    rule.line.color.rgb = rgb(T.ORANGE)
     rule.line.width = Emu(19050)
 
     _add_text(slide, left + Inches(0.35), rule_y + Inches(0.15),
@@ -133,21 +159,22 @@ def slide_title(prs):
               font=T.FONT_BODY, size=Pt(14), color=T.INK)
 
 
-def slide_section(prs, number="01", title="Section Heading"):
+def slide_section(prs, number="01", title="Section Heading",
+                  running_title=None):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_logo_header(slide)
+    add_header(slide, running_title=running_title or title)
 
     left = T.EDGE_PAD + Inches(0.5)
     y = Inches(3.0)
 
     _add_text(slide, left, y, Inches(1.8), Inches(1.2),
-              number, font=T.FONT_HEAD, size=Pt(56), color=T.GOLD, bold=True)
+              number, font=T.FONT_HEAD, size=Pt(56), color=T.ORANGE, bold=True)
 
     rule_x = left + Inches(1.9)
     rule = slide.shapes.add_connector(
         1, rule_x, y + Inches(0.25), rule_x, y + Inches(1.15)
     )
-    rule.line.color.rgb = rgb(T.GOLD)
+    rule.line.color.rgb = rgb(T.ORANGE)
     rule.line.width = Emu(12700)
 
     _add_text(slide, rule_x + Inches(0.3), y + Inches(0.2),
@@ -161,7 +188,8 @@ def slide_section(prs, number="01", title="Section Heading"):
               font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True)
 
 
-def slide_content(prs, title="Slide title", bullets=None):
+def slide_content(prs, title="Slide title", bullets=None,
+                  running_title="Section name"):
     bullets = bullets or [
         "Lead with the main claim — what the reader should take away",
         "Supporting detail, ideally a number or concrete example",
@@ -169,7 +197,7 @@ def slide_content(prs, title="Slide title", bullets=None):
         "Edge case, caveat, or the one thing not to forget",
     ]
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_logo_header(slide)
+    add_header(slide, running_title=running_title)
 
     left = T.EDGE_PAD + Inches(0.1)
     title_top = T.HEADER_H + Inches(0.45)
@@ -180,16 +208,8 @@ def slide_content(prs, title="Slide title", bullets=None):
               title, font=T.FONT_HEAD, size=T.SZ_SLIDE_TITLE,
               color=T.INK, bold=True)
 
-    rule_y = title_top + Inches(0.95)
-    rule = slide.shapes.add_connector(
-        1, left + Inches(0.3), rule_y,
-        T.SLIDE_W - T.EDGE_PAD, rule_y
-    )
-    rule.line.color.rgb = rgb(T.GOLD)
-    rule.line.width = Emu(6350)
-
-    _add_bullets(slide, left + Inches(0.3), rule_y + Inches(0.3),
-                 Inches(12.0), Inches(4.6), bullets)
+    _add_bullets(slide, left + Inches(0.3), title_top + Inches(1.1),
+                 Inches(12.0), Inches(4.4), bullets)
 
     _add_text(slide, left + Inches(0.3),
               T.SLIDE_H - Inches(0.4),
@@ -198,9 +218,10 @@ def slide_content(prs, title="Slide title", bullets=None):
               font=T.FONT_BODY, size=T.SZ_CAPTION, color=T.MUTED, italic=True)
 
 
-def slide_two_column(prs, title="Figure or image + text"):
+def slide_two_column(prs, title="Figure or image + text",
+                     running_title="Section name"):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_logo_header(slide)
+    add_header(slide, running_title=running_title)
 
     left = T.EDGE_PAD + Inches(0.1)
     title_top = T.HEADER_H + Inches(0.45)
@@ -211,17 +232,9 @@ def slide_two_column(prs, title="Figure or image + text"):
               title, font=T.FONT_HEAD, size=T.SZ_SLIDE_TITLE,
               color=T.INK, bold=True)
 
-    rule_y = title_top + Inches(0.95)
-    rule = slide.shapes.add_connector(
-        1, left + Inches(0.3), rule_y,
-        T.SLIDE_W - T.EDGE_PAD, rule_y
-    )
-    rule.line.color.rgb = rgb(T.GOLD)
-    rule.line.width = Emu(6350)
-
     col_x = left + Inches(0.3)
-    col_top = rule_y + Inches(0.3)
-    col_h = Inches(4.5)
+    col_top = title_top + Inches(1.1)
+    col_h = Inches(4.3)
     col_w = Inches(5.8)
 
     frame = slide.shapes.add_shape(
@@ -237,8 +250,7 @@ def slide_two_column(prs, title="Figure or image + text"):
 
     text_x = col_x + col_w + Inches(0.5)
     text_w = T.SLIDE_W - text_x - T.EDGE_PAD
-    _add_text(slide, text_x, col_top,
-              text_w, Inches(0.5),
+    _add_text(slide, text_x, col_top, text_w, Inches(0.5),
               "Caption or claim",
               font=T.FONT_HEAD, size=Pt(20), color=T.INK, bold=True)
     _add_bullets(slide, text_x, col_top + Inches(0.7),
@@ -251,7 +263,7 @@ def slide_two_column(prs, title="Figure or image + text"):
 
 def slide_thanks(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
-    add_logo_header(slide)
+    add_header(slide)
 
     left = T.EDGE_PAD + Inches(0.2)
     y = Inches(3.0)
@@ -267,7 +279,7 @@ def slide_thanks(prs):
         1, left + Inches(0.35), rule_y,
         left + Inches(2.2), rule_y
     )
-    rule.line.color.rgb = rgb(T.GOLD)
+    rule.line.color.rgb = rgb(T.ORANGE)
     rule.line.width = Emu(19050)
 
     _add_text(slide, left + Inches(0.35), rule_y + Inches(0.2),
@@ -287,9 +299,10 @@ def build():
     prs.slide_height = T.SLIDE_H
 
     slide_title(prs)
-    slide_section(prs, number="01", title="Motivation")
-    slide_content(prs)
-    slide_two_column(prs)
+    slide_section(prs, number="01", title="Motivation",
+                  running_title="Motivation")
+    slide_content(prs, running_title="Motivation")
+    slide_two_column(prs, running_title="Motivation")
     slide_thanks(prs)
 
     prs.save(str(OUTPUT))
