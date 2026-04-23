@@ -34,3 +34,13 @@ venv/
 
 # .claude settings
 .claude/
+
+# Template source code — lab members only need the .pptx files.
+# Code stays out of the repo; maintainers keep local copies.
+templates/*/build.py
+templates/*/theme.py
+templates/*/textures.py
+requirements.txt
+
+# Logo trim cache — generated at build time, not a deliverable.
+assets/logos/_trimmed/
