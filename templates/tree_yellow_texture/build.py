@@ -195,7 +195,7 @@ def slide_section(prs, number="01", title="Section Heading"):
               font=T.FONT_BODY, size=Pt(14), color=T.MUTED, italic=True)
 
 
-def slide_content(prs, title="Slide title goes in the header", bullets=None):
+def slide_content(prs, title="Slide title", bullets=None):
     bullets = bullets or [
         "Lead with the main claim — what the reader should take away",
         "Supporting detail, ideally a number or concrete example",
@@ -219,7 +219,7 @@ def slide_content(prs, title="Slide title goes in the header", bullets=None):
               font=T.FONT_BODY, size=T.SZ_CAPTION, color=T.MUTED, italic=True)
 
 
-def slide_two_column(prs, title="Figure and commentary"):
+def slide_two_column(prs, title="Slide title"):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_header(slide, title=title)
 
@@ -290,9 +290,9 @@ def build():
     prs.slide_height = T.SLIDE_H
 
     slide_title(prs)
-    slide_section(prs, number="01", title="Motivation")
-    slide_content(prs, title="Why retrieval is hard")
-    slide_two_column(prs, title="Model architecture")
+    slide_section(prs, number="01", title="Section heading")
+    slide_content(prs, title="Slide title")
+    slide_two_column(prs, title="Slide title")
     slide_thanks(prs)
 
     prs.save(str(OUTPUT))
