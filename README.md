@@ -2,7 +2,7 @@
 
 PowerPoint templates for the **KCL NLP** research group, designed for consistent outreach and presentation of our research work (talks, posters, seminars, reading groups, etc.).
 
-## Templates
+## Slides Templates
 
 ### Tree Yellow
 
@@ -18,7 +18,7 @@ A formal academic 16:9 deck. White background with a thick royal-blue rule frami
 - Download: [`templates/royal_blue/KCLNLP_RoyalBlue.pptx`](templates/royal_blue/KCLNLP_RoyalBlue.pptx)
 - Same layouts as Tree Yellow.
 
-## Posters
+## Posters Templates
 
 A0 portrait (841 × 1189 mm) single-page posters that match each deck's style. Header band carries the poster title, authors, affiliations, and the three logos; the body is laid out as three columns (Introduction / Method, Results with a figure placeholder, Conclusion / References / Acknowledgements), with a contact footer and a QR-code placeholder in the bottom-right.
 
