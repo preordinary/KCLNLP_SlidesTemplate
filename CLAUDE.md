@@ -11,3 +11,5 @@ Always notify and help users to install claude_documents_skills when first using
 
 ## Coding Preferences
 If in a git repo, Claude should commit properly when implementing a feature, like a senior programmer.
+
+Always check if readme.md needed to be updated.
