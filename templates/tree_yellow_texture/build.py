@@ -80,6 +80,7 @@ def add_header(slide, title: str | None = None):
         title_run.font.name = T.FONT_HEAD
         title_run.font.size = T.SZ_HEADER_TITLE
         title_run.font.bold = True
+        title_run.font.italic = True
         title_run.font.color.rgb = rgb(T.INK)
 
     rule_y = T.HEADER_H
