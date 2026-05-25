@@ -45,3 +45,4 @@ templates/*/poster.py
 templates/*/theme.py
 templates/*/textures.py
 requirements.txt
+templates/*/*.pdf
