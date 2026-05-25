@@ -40,22 +40,22 @@ A dusty-rose Morandi 16:9 deck for academic talks. Humanist, considered feel; pa
   - `#2E2625` — primary text (warm near-black brown)
   - `#736A68` — secondary / italic text (captions, footer) — tinted warm grey to keep the Morandi feel
 
-### Ochre Clay
+### Faded Indigo
 
-A warm ochre / terracotta Morandi 16:9 deck. More restrained than a saturated yellow; reads earthy and grounded, well suited to applied / industry-facing talks.
+A faded-indigo Morandi 16:9 deck. Sober and grounded — the family's deepest, most "old book cover" voice. A deliberate alternative to a saturated corporate blue; reads cool but not cold, well suited to thesis-defence-style decks and formal seminars.
 
 | Title page | Content page |
 | --- | --- |
-| ![Ochre Clay title page](assets/images/ochre_clay_title.png) | ![Ochre Clay content page](assets/images/ochre_clay_content.png) |
+| ![Faded Indigo title page](assets/images/faded_indigo_title.png) | ![Faded Indigo content page](assets/images/faded_indigo_content.png) |
 
-- Download: [`templates/ochre_clay/KCLNLP_OchreClay.pptx`](templates/ochre_clay/KCLNLP_OchreClay.pptx)
+- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo.pptx`](templates/faded_indigo/KCLNLP_FadedIndigo.pptx)
 - Same layouts as Sage Mist.
 - Main colors:
-  - `#B08A5C` — ochre rail, slide-title underline rule, section numerals, footer accent
-  - `#D4B89A` — lighter sand for decorative rules and pull-quote glyphs
-  - `#F3EBDB` — cream tint for TAKEAWAY callout fill
-  - `#2E2820` — primary text (warm near-black)
-  - `#8A7A66` — secondary / italic text (captions, footer) — tinted toward the rail to keep the Morandi feel
+  - `#4F5E78` — faded-indigo rail, slide-title underline rule, section numerals, footer accent
+  - `#A0AAB8` — lighter slate for decorative rules and pull-quote glyphs
+  - `#E5E8EC` — pale slate tint for TAKEAWAY callout fill
+  - `#232730` — primary text (cool near-black)
+  - `#6E747F` — secondary / italic text (captions, footer) — tinted toward the rail to keep the Morandi feel
 
 ### Deep Plum
 
@@ -94,13 +94,13 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
 
 - Download: [`templates/dusty_rose/KCLNLP_DustyRose_Poster.pptx`](templates/dusty_rose/KCLNLP_DustyRose_Poster.pptx)
 
-### Ochre Clay poster
+### Faded Indigo poster
 
 <p align="center">
-  <img src="assets/images/ochre_clay_poster.png" alt="Ochre Clay A0 poster" width="360">
+  <img src="assets/images/faded_indigo_poster.png" alt="Faded Indigo A0 poster" width="360">
 </p>
 
-- Download: [`templates/ochre_clay/KCLNLP_OchreClay_Poster.pptx`](templates/ochre_clay/KCLNLP_OchreClay_Poster.pptx)
+- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo_Poster.pptx`](templates/faded_indigo/KCLNLP_FadedIndigo_Poster.pptx)
 
 ### Deep Plum poster
 
