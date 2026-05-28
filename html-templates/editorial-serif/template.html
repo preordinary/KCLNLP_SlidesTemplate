@@ -315,6 +315,40 @@
     }
 
     /* ============================================================
+       LAYOUT 5: slide-quote
+       ============================================================ */
+    .slide-quote .slide-body {
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 80px; padding-right: 80px;
+    }
+    .slide-quote .quote-mark {
+      font-family: var(--font-serif);
+      font-size: 160px;
+      line-height: 0.4;
+      color: var(--accent);
+      margin-bottom: 36px;
+    }
+    .slide-quote .quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-quote);
+      line-height: 1.35;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin: 0;
+      max-width: 88%;
+    }
+    .slide-quote .attr {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 40px;
+    }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -516,6 +550,22 @@
             <p>At 1.3B parameters our model matches the 7B baseline on four of five benchmarks at 18% of the cost.</p>
           </div>
         </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-quote">
+      <header class="slide-head">
+        <span>Main result</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote">Smaller models, trained on the right data, beat larger ones — and they keep beating them as you scale.</p>
+        <div class="attr">— Main result · Section 4</div>
       </div>
       <footer class="slide-foot">
         <span>KCL · NLP Group · Alan Turing</span>
