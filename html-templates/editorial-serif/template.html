@@ -543,14 +543,18 @@
     }
     body.is-grid .slide {
       display: block !important;          /* override .is-current exclusivity */
-      width: 100%; height: auto;
-      aspect-ratio: 16 / 9;
-      transform: scale(0.25); transform-origin: top left;
-      /* Use a wrapper trick: scale the slide and reserve space for it */
-      position: relative;
+      /* Keep the slide at its natural 1920×1080 size — child layout was
+         authored against those pixels and won't reflow at arbitrary
+         widths. Instead, scale the whole rendered slide down to fit
+         its grid cell. --thumb-scale is set by JS from wrap width. */
+      width: 1920px; height: 1080px;
+      transform: scale(var(--thumb-scale, 0.25));
+      transform-origin: top left;
+      position: absolute; top: 0; left: 0;
     }
     /* Wrap each slide in a grid cell that reserves the post-scale footprint. */
     body.is-grid .slide-wrap {
+      position: relative;
       width: 100%; aspect-ratio: 16 / 9;
       overflow: hidden;
       background: var(--paper);
@@ -942,15 +946,24 @@
         // micro-jitters and horizontal swipes don't trigger navigation.
         // We do not nav while the grid overlay is open — there the user
         // expects to scroll the thumbnails, not flip slides.
+        //
+        // Browsers disagree on deltaMode: Chrome reports mouse wheel in
+        // pixels (deltaY≈100 per notch), Firefox in lines (deltaY≈3),
+        // and some in pages. Normalize to pixels first so one threshold
+        // works everywhere — otherwise Firefox wheel clicks (deltaY=3)
+        // fall under the threshold and nothing happens.
         this._wheelLock = 0;
         window.addEventListener('wheel', (e) => {
           if (document.body.classList.contains('is-grid')) return;
-          if (Math.abs(e.deltaY) < 20) return;
-          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+          const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+          const dy = e.deltaY * unit;
+          const dx = e.deltaX * unit;
+          if (Math.abs(dy) < 10) return;
+          if (Math.abs(dx) > Math.abs(dy)) return;
           const now = Date.now();
           if (now < this._wheelLock) return;
           this._wheelLock = now + 500;
-          (e.deltaY > 0 ? this.next() : this.prev());
+          (dy > 0 ? this.next() : this.prev());
         }, { passive: true });
 
         // Numeric jump buffer
@@ -1101,7 +1114,16 @@
               this._show(n);
             });
           });
+          // Scale each thumbnail to its wrap width. Done once on enter
+          // and re-run on resize while grid is open.
+          this._scaleThumbs();
+          this._gridResize = () => this._scaleThumbs();
+          window.addEventListener('resize', this._gridResize);
         } else {
+          if (this._gridResize) {
+            window.removeEventListener('resize', this._gridResize);
+            this._gridResize = null;
+          }
           // Unwrap and restore single-slide display.
           this.slides.forEach((slide) => {
             const wrap = slide.parentElement;
@@ -1113,6 +1135,15 @@
           // Restore exclusive .is-current.
           this._show(this.currentIndex);
         }
+      }
+
+      _scaleThumbs() {
+        this.slides.forEach((slide) => {
+          const wrap = slide.parentElement;
+          if (!wrap.classList.contains('slide-wrap')) return;
+          const s = wrap.clientWidth / 1920;
+          slide.style.setProperty('--thumb-scale', s);
+        });
       }
 
       _toggleCheat() {
@@ -1183,11 +1214,11 @@
         i = Math.max(0, Math.min(this.total - 1, i));
         this.slides.forEach((s, n) => s.classList.toggle('is-current', n === i));
         this.currentIndex = i;
-        // Update hash without re-triggering hashchange.
-        const want = '#' + (i + 1);
-        if (location.hash !== want) {
-          history.replaceState(null, '', want);
-        }
+        // We deliberately do NOT write the slide number to location.hash
+        // here. Deep links (#7) still work because _onHash() reads the
+        // hash on navigation, and the initial #N is read on load. But
+        // every-flip URL writes (a) made the address bar visually noisy
+        // and (b) bloated the browser history.
       }
 
       /* ---- hash sync ---- */
