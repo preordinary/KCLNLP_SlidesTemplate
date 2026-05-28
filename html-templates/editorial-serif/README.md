@@ -3,6 +3,10 @@
 A single-file, zero-dependency HTML deck template for KCL NLP talks.
 Open it in any modern browser, scale to any 16:9 display, edit as plain HTML.
 
+| Title page | Content page |
+| --- | --- |
+| ![Editorial Serif title page](../../assets/images/editorial_serif_title.png) | ![Editorial Serif content page](../../assets/images/editorial_serif_content.png) |
+
 ## Quickstart
 
 1. Copy `template.html` to a new file:

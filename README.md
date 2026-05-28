@@ -118,6 +118,13 @@ Copy `template.html`, edit the slides inline, open in any browser —
 no build step. See the directory's own README for the full keyboard
 map and layout reference.
 
+Visual style: warm paper background, full serif typography, single brick-red
+accent — an "editorial / Atlantic" feel, distinct from the pptx decks' Morandi family.
+
+| Title page | Content page |
+| --- | --- |
+| ![Editorial Serif title page](assets/images/editorial_serif_title.png) | ![Editorial Serif content page](assets/images/editorial_serif_content.png) |
+
 ## Usage
 
 1. Download the `.pptx` file for the template you want (deck or poster).
