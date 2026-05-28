@@ -934,6 +934,25 @@
           this._touchStartX = null;
         }, { passive: true });
 
+        // Mouse wheel / trackpad — one gesture flips one slide. A
+        // trackpad fling fires 20+ wheel events; without debouncing the
+        // deck would skip half the talk. We collapse a burst into a
+        // single nav by ignoring further wheel events for 500ms after
+        // each acted-on one, and require a small movement threshold so
+        // micro-jitters and horizontal swipes don't trigger navigation.
+        // We do not nav while the grid overlay is open — there the user
+        // expects to scroll the thumbnails, not flip slides.
+        this._wheelLock = 0;
+        window.addEventListener('wheel', (e) => {
+          if (document.body.classList.contains('is-grid')) return;
+          if (Math.abs(e.deltaY) < 20) return;
+          if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+          const now = Date.now();
+          if (now < this._wheelLock) return;
+          this._wheelLock = now + 500;
+          (e.deltaY > 0 ? this.next() : this.prev());
+        }, { passive: true });
+
         // Numeric jump buffer
         this._numBuffer = '';
 

@@ -37,10 +37,10 @@ Steps:
 
 ## Keyboard shortcuts
 
-| Action               | Keys                                                         |
-|----------------------|--------------------------------------------------------------|
-| Next                 | `→` `↓` `Space` `PageDown` · right mouse · touch swipe left  |
-| Previous             | `←` `↑` `Shift+Space` `PageUp` · touch swipe right            |
+| Action               | Keys                                                                       |
+|----------------------|----------------------------------------------------------------------------|
+| Next                 | `→` `↓` `Space` `PageDown` · right mouse · touch swipe left · wheel down   |
+| Previous             | `←` `↑` `Shift+Space` `PageUp` · touch swipe right · wheel up              |
 | First / Last         | `Home` / `End`                                               |
 | Jump to slide N      | type digits then `Enter`                                     |
 | Overview grid        | `O` / `Esc` (toggle)                                         |
