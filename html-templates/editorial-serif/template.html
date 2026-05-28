@@ -217,6 +217,40 @@
     }
 
     /* ============================================================
+       LAYOUT 3: slide-content
+       ============================================================ */
+    .slide-content h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-content .accent-rule { margin: 20px 0 40px; }
+    .slide-content ul {
+      list-style: none;
+      padding: 0; margin: 0;
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .slide-content ul li {
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 22px;
+    }
+    .slide-content ul li::before {
+      content: "—";
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .slide-content.dense h2 { font-size: 44px; }
+    .slide-content.dense ul { font-size: 28px; line-height: 1.5; }
+    .slide-content.dense ul li { margin-bottom: 14px; }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -364,6 +398,27 @@
           <h2>The data curation premium</h2>
           <p>What we mean by "right data" — three quantitative axes.</p>
         </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-content">
+      <header class="slide-head">
+        <span>Method</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Three properties of "right data"</h2>
+        <div class="accent-rule"></div>
+        <ul>
+          <li>Coverage — every reasoning skill seen at least 50× during training.</li>
+          <li>De-duplication at the document level, not just the n-gram level.</li>
+          <li>A held-out test split drawn from a different time period entirely.</li>
+          <li>Sampled at 1.3B params, then re-verified at 350M and 7B scale.</li>
+        </ul>
       </div>
       <footer class="slide-foot">
         <span>KCL · NLP Group · Alan Turing</span>
