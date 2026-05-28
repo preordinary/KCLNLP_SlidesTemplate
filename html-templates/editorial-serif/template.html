@@ -102,6 +102,84 @@
     h1, h2, p { margin: 0; }
 
     /* ============================================================
+       SHARED CHROME  —  head + foot are identical across all layouts.
+       ============================================================ */
+    .slide-head, .slide-foot {
+      position: absolute; left: var(--pad-x); right: var(--pad-x);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .slide-head {
+      top: var(--pad-top);
+      padding-bottom: 24px;
+      border-bottom: 0.5px solid var(--hairline);
+      color: var(--accent);
+    }
+    .slide-foot {
+      bottom: var(--pad-bottom);
+      padding-top: 24px;
+      border-top: 0.5px solid var(--hairline);
+      font-size: var(--size-tiny);
+    }
+    .slide-body {
+      position: absolute;
+      left: var(--pad-x); right: var(--pad-x);
+      top: calc(var(--pad-top) + 90px);
+      bottom: calc(var(--pad-bottom) + 70px);
+      display: flex; flex-direction: column;
+    }
+
+    /* Common element: brick-red rule + sans kicker. */
+    .accent-rule {
+      width: var(--rule-w); height: var(--rule-h);
+      background: var(--accent);
+      margin: 28px 0;
+    }
+    .kicker {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+    }
+
+    /* ============================================================
+       LAYOUT 1: slide-title
+       ============================================================ */
+    .slide-title .slide-body { justify-content: center; }
+    .slide-title h1 {
+      font-family: var(--font-serif);
+      font-size: var(--size-hero);
+      font-weight: 400;
+      line-height: 1.06;
+      letter-spacing: -1px;
+      margin: 0 0 32px;
+    }
+    .slide-title .sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-sub);
+      color: var(--muted);
+      line-height: 1.4;
+      max-width: 80%;
+      margin: 0;
+    }
+    .slide-title .meta {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 0;
+    }
+    .slide-title.cover-only .meta { display: none; }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -220,10 +298,21 @@
   <div class="stage">
 
     <section class="slide slide-title">
-      <h1>Hello, editorial serif.</h1>
-      <p style="font-family: var(--font-sans); font-size: var(--size-meta); margin-top:40px;">
-        Page <span data-auto-page></span>
-      </p>
+      <header class="slide-head">
+        <span>KCLNLP · Talk 01</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="kicker">No. 01 — Scaling</div>
+        <h1>Smaller language models,<br>trained on the right data.</h1>
+        <p class="sub">A look at where parameter efficiency stops paying its bills, and where curated data starts.</p>
+        <div class="accent-rule"></div>
+        <p class="meta">Jane Doe · King's College London · Dec 2026</p>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
     </section>
 
     <section class="slide slide-content">
