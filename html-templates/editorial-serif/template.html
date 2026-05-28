@@ -185,6 +185,34 @@
       z-index: 9998;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
     }
+    /* ============================================================
+       PRINT  —  Ctrl/Cmd + P exports one slide per page.
+       ============================================================ */
+    @page { size: 1920px 1080px; margin: 0; }
+    @media print {
+      html, body {
+        background: #fff !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .stage {
+        position: static !important;
+        transform: none !important;
+        width: 1920px; height: auto;
+        left: 0 !important; top: 0 !important;
+        display: block !important;
+      }
+      .slide {
+        display: block !important;
+        width: 1920px; height: 1080px;
+        page-break-after: always;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+      }
+      .slide:last-child { page-break-after: auto; }
+      /* Hide UI overlays in print. */
+      #num-buffer, #cheat-overlay, .notes { display: none !important; }
+    }
   </style>
 </head>
 
