@@ -108,15 +108,94 @@
 
     <section class="slide slide-title">
       <h1>Hello, editorial serif.</h1>
+      <p style="font-family: var(--font-sans); font-size: var(--size-meta); margin-top:40px;">
+        Page <span data-auto-page></span>
+      </p>
+    </section>
+
+    <section class="slide slide-content">
+      <h1>Slide two.</h1>
+      <p style="font-family: var(--font-sans); font-size: var(--size-meta); margin-top:40px;">
+        Page <span data-auto-page></span>
+      </p>
     </section>
 
   </div>
 
   <script>
-    /* SlidePresentation — full implementation added in later tasks */
+    /* ============================================================
+       SlidePresentation
+       Core responsibilities (this task):
+         - fit() : compute --scale on every resize
+         - currentIndex tracking, .is-current class management
+         - hashchange sync (#7 jumps to slide 7)
+         - [data-auto-page] auto-fill with "n / total"
+       Navigation, modes, and overlays come in later tasks.
+       ============================================================ */
     class SlidePresentation {
-      constructor() { /* stub */ }
+      constructor() {
+        this.stage  = document.querySelector('.stage');
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.total  = this.slides.length;
+        this.currentIndex = this._readHash();
+
+        this._fillAutoPage();
+        this._fit();
+        this._show(this.currentIndex);
+
+        window.addEventListener('resize',     () => this._fit());
+        window.addEventListener('hashchange', () => this._onHash());
+      }
+
+      /* ---- scaling ---- */
+      _fit() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const scale = Math.min(w / 1920, h / 1080);
+        document.documentElement.style.setProperty('--scale', scale);
+        // Center the scaled stage in the viewport.
+        const offsetX = (w - 1920 * scale) / 2;
+        const offsetY = (h - 1080 * scale) / 2;
+        this.stage.style.left = offsetX + 'px';
+        this.stage.style.top  = offsetY + 'px';
+      }
+
+      /* ---- current slide ---- */
+      _show(i) {
+        i = Math.max(0, Math.min(this.total - 1, i));
+        this.slides.forEach((s, n) => s.classList.toggle('is-current', n === i));
+        this.currentIndex = i;
+        // Update hash without re-triggering hashchange.
+        const want = '#' + (i + 1);
+        if (location.hash !== want) {
+          history.replaceState(null, '', want);
+        }
+      }
+
+      /* ---- hash sync ---- */
+      _readHash() {
+        const m = (location.hash || '').match(/^#(\d+)$/);
+        if (!m) return 0;
+        return Math.max(0, Math.min(this.total - 1, parseInt(m[1], 10) - 1));
+      }
+      _onHash() {
+        const i = this._readHash();
+        if (i !== this.currentIndex) this._show(i);
+      }
+
+      /* ---- auto page numbers ---- */
+      _fillAutoPage() {
+        this.slides.forEach((slide, n) => {
+          slide.querySelectorAll('[data-auto-page]').forEach(el => {
+            // Only fill if empty so authors can hand-write a custom value.
+            if (el.textContent.trim() === '') {
+              el.textContent = (n + 1) + ' / ' + this.total;
+            }
+          });
+        });
+      }
     }
+
     new SlidePresentation();
   </script>
 </body>
