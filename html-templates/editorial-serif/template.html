@@ -100,6 +100,97 @@
     }
     .slide.is-current { display: block; }
     h1, h2, p { margin: 0; }
+
+    /* ============================================================
+       MODES  —  body classes toggled by JS.
+       ============================================================ */
+    /* Overview grid: shrink the stage and re-flow slides as a grid. */
+    body.is-grid {
+      overflow: auto;
+    }
+    body.is-grid .stage {
+      position: static;
+      width: 100%; height: auto;
+      transform: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 32px;
+      box-sizing: border-box;
+      background: #222;
+    }
+    body.is-grid .slide {
+      display: block !important;          /* override .is-current exclusivity */
+      width: 100%; height: auto;
+      aspect-ratio: 16 / 9;
+      transform: scale(0.25); transform-origin: top left;
+      /* Use a wrapper trick: scale the slide and reserve space for it */
+      position: relative;
+    }
+    /* Wrap each slide in a grid cell that reserves the post-scale footprint. */
+    body.is-grid .slide-wrap {
+      width: 100%; aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--paper);
+      cursor: pointer;
+      outline: 2px solid transparent;
+      transition: outline-color 0.15s;
+    }
+    body.is-grid .slide-wrap:hover { outline-color: var(--accent); }
+    body.is-grid .slide-wrap.is-current-thumb { outline-color: var(--accent); }
+    body.is-grid .slide-wrap .slide {
+      width: 1920px; height: 1080px;
+      transform: scale(calc(100% / 1920 * var(--thumb-w, 320)));
+      /* Fallback: use a known scale rather than a calc that JS sets per cell */
+    }
+
+    /* Black / white screens */
+    body.is-black::after,
+    body.is-white::after {
+      content: ""; position: fixed; inset: 0; z-index: 10000;
+    }
+    body.is-black::after { background: #000; }
+    body.is-white::after { background: #fff; }
+
+    /* Cheat sheet overlay */
+    .cheat-overlay {
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff; font-family: var(--font-sans);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cheat-overlay .cheat-box {
+      max-width: 600px; padding: 40px 56px;
+      background: #111; border: 1px solid #333;
+      font-size: 16px; line-height: 1.7;
+    }
+    .cheat-overlay h3 {
+      margin: 0 0 20px; font-family: var(--font-serif);
+      font-size: 24px; font-weight: 400; letter-spacing: -0.5px;
+    }
+    .cheat-overlay table { border-collapse: collapse; width: 100%; }
+    .cheat-overlay td { padding: 4px 0; vertical-align: top; }
+    .cheat-overlay td:first-child {
+      width: 220px; color: #c9b27c;
+      font-family: monospace; font-size: 14px;
+    }
+    .cheat-overlay .cheat-dismiss {
+      margin-top: 20px; font-size: 13px; color: #999;
+    }
+
+    /* Rehearsal notes box */
+    .notes { display: none; }
+    body.is-notes .slide.is-current .notes {
+      display: block;
+      position: fixed; bottom: 24px; right: 24px;
+      max-width: 380px; padding: 18px 22px;
+      background: rgba(255, 255, 255, 0.95);
+      border-left: 3px solid var(--accent);
+      font-family: var(--font-sans); font-size: 16px;
+      line-height: 1.5; color: var(--ink);
+      z-index: 9998;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    }
   </style>
 </head>
 
@@ -162,6 +253,13 @@
 
         // Numeric jump buffer
         this._numBuffer = '';
+
+        // URL param activation.
+        const params = new URLSearchParams(location.search);
+        if (params.has('notes')) document.body.classList.add('is-notes');
+        if (params.has('grid'))  this._toggleGrid();
+        // ?print is handled by CSS @media print + an immediate window.print() would
+        // be hostile; leave the param as documentation only.
       }
 
       /* ---- public navigation ---- */
@@ -229,6 +327,122 @@
             this.last();
             e.preventDefault();
             break;
+          case 'b': case 'B':
+            this._toggleBody('is-black');
+            e.preventDefault();
+            break;
+          case 'w': case 'W':
+            this._toggleBody('is-white');
+            e.preventDefault();
+            break;
+          case 'f': case 'F':
+            this._toggleFullscreen();
+            e.preventDefault();
+            break;
+          case 'o': case 'O':
+            this._toggleGrid();
+            e.preventDefault();
+            break;
+          case 'Escape':
+            if (document.body.classList.contains('is-grid')) {
+              this._toggleGrid();
+              e.preventDefault();
+            } else if (document.body.classList.contains('is-black') ||
+                       document.body.classList.contains('is-white')) {
+              document.body.classList.remove('is-black', 'is-white');
+              e.preventDefault();
+            } else if (this._cheatOpen) {
+              this._toggleCheat();
+              e.preventDefault();
+            }
+            break;
+          case '?': case 'h': case 'H':
+            this._toggleCheat();
+            e.preventDefault();
+            break;
+        }
+      }
+
+      /* ---- modes ---- */
+      _toggleBody(cls) {
+        // Mutually exclusive between black and white.
+        if (cls === 'is-black') document.body.classList.remove('is-white');
+        if (cls === 'is-white') document.body.classList.remove('is-black');
+        document.body.classList.toggle(cls);
+      }
+
+      _toggleFullscreen() {
+        const doc = document;
+        const el  = doc.documentElement;
+        const isFs = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (isFs) {
+          (doc.exitFullscreen || doc.webkitExitFullscreen).call(doc);
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        }
+      }
+
+      _toggleGrid() {
+        const on = document.body.classList.toggle('is-grid');
+        if (on) {
+          // Wrap each slide in a .slide-wrap cell that handles click-to-jump.
+          this.slides.forEach((slide, n) => {
+            if (slide.parentElement.classList.contains('slide-wrap')) return;
+            const wrap = document.createElement('div');
+            wrap.className = 'slide-wrap';
+            if (n === this.currentIndex) wrap.classList.add('is-current-thumb');
+            slide.parentNode.insertBefore(wrap, slide);
+            wrap.appendChild(slide);
+            wrap.addEventListener('click', () => {
+              this._toggleGrid();
+              this._show(n);
+            });
+          });
+          // In grid mode every slide must render, regardless of .is-current.
+          this.slides.forEach(s => s.classList.add('is-current'));
+        } else {
+          // Unwrap and restore single-slide display.
+          this.slides.forEach((slide) => {
+            const wrap = slide.parentElement;
+            if (wrap.classList.contains('slide-wrap')) {
+              wrap.parentNode.insertBefore(slide, wrap);
+              wrap.remove();
+            }
+          });
+          // Restore exclusive .is-current.
+          this._show(this.currentIndex);
+        }
+      }
+
+      _toggleCheat() {
+        let el = document.getElementById('cheat-overlay');
+        if (el) {
+          el.remove();
+          this._cheatOpen = false;
+        } else {
+          el = document.createElement('div');
+          el.id = 'cheat-overlay';
+          el.className = 'cheat-overlay';
+          el.innerHTML = `
+            <div class="cheat-box">
+              <h3>Keyboard shortcuts</h3>
+              <table>
+                <tr><td>→ ↓ Space PageDn</td><td>Next slide</td></tr>
+                <tr><td>← ↑ Shift+Space PageUp</td><td>Previous slide</td></tr>
+                <tr><td>Home / End</td><td>First / Last slide</td></tr>
+                <tr><td>digits + Enter</td><td>Jump to slide N</td></tr>
+                <tr><td>O / Esc</td><td>Toggle overview grid</td></tr>
+                <tr><td>B</td><td>Black screen</td></tr>
+                <tr><td>W</td><td>White screen</td></tr>
+                <tr><td>F</td><td>Fullscreen</td></tr>
+                <tr><td>Ctrl/Cmd + P</td><td>Print / export PDF</td></tr>
+                <tr><td>? / H</td><td>This cheat sheet</td></tr>
+              </table>
+              <div class="cheat-dismiss">Press ? or Esc to dismiss.</div>
+            </div>`;
+          el.addEventListener('click', () => this._toggleCheat());
+          document.body.appendChild(el);
+          this._cheatOpen = true;
         }
       }
 
