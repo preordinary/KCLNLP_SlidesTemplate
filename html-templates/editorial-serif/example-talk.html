@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Smaller language models, trained on the right data</title>
+
+  <!--
+    KCLNLP Editorial Serif · HTML deck template
+    ─────────────────────────────────────────
+    HOW TO USE
+    1. Change <title> above and the deck title in the first <section>.
+    2. Add / remove / reorder <section class="slide ..."> blocks below.
+    3. Open this file in any browser. No build step.
+
+    LAYOUTS
+      slide-title       slide-section     slide-content
+      slide-two         slide-quote       slide-figure
+      slide-code        slide-end
+
+    KEYBOARD (press ? in the deck for the full list)
+      → ←   Space   B / W   F   Esc (grid)   Ctrl+P
+  -->
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS  —  edit these to retheme.
+       ============================================================ */
+    :root {
+      /* Color */
+      --paper:    #f5efe6;
+      --ink:      #1a1a1a;
+      --muted:    #4a4a4a;
+      --hairline: #1a1a1a;
+      --faint:    #999999;
+      --accent:   #8b3a2f;
+      --accent-2: #c9b27c;
+
+      /* Fonts */
+      --font-serif:
+        'Source Serif Pro', 'Source Serif 4',
+        Georgia, 'Times New Roman', serif;
+      --font-sans:
+        'Inter', -apple-system, BlinkMacSystemFont,
+        'Segoe UI', 'Helvetica Neue', sans-serif;
+      --font-mono:
+        'JetBrains Mono', 'SF Mono', Menlo,
+        Consolas, monospace;
+
+      /* Type scale (px @ native 1920×1080) */
+      --size-hero:      80px;
+      --size-section:   180px;
+      --size-section-h: 68px;
+      --size-h2:        56px;
+      --size-quote:     56px;
+      --size-body:      34px;
+      --size-sub:       36px;
+      --size-stat:      100px;
+      --size-meta:      22px;
+      --size-tiny:      18px;
+
+      /* Spacing */
+      --pad-x:       120px;
+      --pad-top:      90px;
+      --pad-bottom:   70px;
+      --rule-w:      100px;
+      --rule-h:        5px;
+
+      /* Stage scale — overwritten by JS on resize */
+      --scale: 1;
+    }
+
+    /* ============================================================
+       STAGE  —  1920×1080 absolute canvas, JS-driven scale.
+       ============================================================ */
+    html, body {
+      margin: 0; padding: 0;
+      background: #222;
+      height: 100vh; overflow: hidden;
+      font-family: var(--font-serif);
+      color: var(--ink);
+    }
+    .stage {
+      width: 1920px; height: 1080px;
+      transform-origin: top left;
+      transform: scale(var(--scale));
+      position: absolute; top: 0; left: 0;
+    }
+
+    /* ============================================================
+       SLIDE  —  every layout starts here.
+       ============================================================ */
+    .slide {
+      width: 1920px; height: 1080px;
+      background: var(--paper);
+      color: var(--ink);
+      box-sizing: border-box;
+      position: relative;
+      display: none;   /* SlidePresentation toggles .is-current */
+    }
+    .slide.is-current { display: block; }
+    h1, h2, p { margin: 0; }
+
+    /* ============================================================
+       SHARED CHROME  —  head + foot are identical across all layouts.
+       ============================================================ */
+    .slide-head, .slide-foot {
+      position: absolute; left: var(--pad-x); right: var(--pad-x);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .slide-head {
+      top: var(--pad-top);
+      padding-bottom: 24px;
+      border-bottom: 0.5px solid var(--hairline);
+      color: var(--accent);
+    }
+    .slide-foot {
+      bottom: var(--pad-bottom);
+      padding-top: 24px;
+      border-top: 0.5px solid var(--hairline);
+      font-size: var(--size-tiny);
+    }
+    .slide-body {
+      position: absolute;
+      left: var(--pad-x); right: var(--pad-x);
+      top: calc(var(--pad-top) + 90px);
+      bottom: calc(var(--pad-bottom) + 70px);
+      display: flex; flex-direction: column;
+    }
+
+    /* Common element: brick-red rule + sans kicker. */
+    .accent-rule {
+      width: var(--rule-w); height: var(--rule-h);
+      background: var(--accent);
+      margin: 28px 0;
+    }
+    .kicker {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+    }
+
+    /* ============================================================
+       LAYOUT 1: slide-title
+       ============================================================ */
+    .slide-title .slide-body { justify-content: center; }
+    .slide-title h1 {
+      font-family: var(--font-serif);
+      font-size: var(--size-hero);
+      font-weight: 400;
+      line-height: 1.06;
+      letter-spacing: -1px;
+      margin: 0 0 32px;
+    }
+    .slide-title .sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-sub);
+      color: var(--muted);
+      line-height: 1.4;
+      max-width: 80%;
+      margin: 0;
+    }
+    .slide-title .meta {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 0;
+    }
+    .slide-title.cover-only .meta { display: none; }
+
+    /* ============================================================
+       LAYOUT 2: slide-section
+       ============================================================ */
+    .slide-section .slide-body {
+      flex-direction: row;
+      align-items: center;
+      gap: 80px;
+    }
+    .slide-section .section-num {
+      font-family: var(--font-serif);
+      font-size: var(--size-section);
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -6px;
+    }
+    .slide-section .section-rule {
+      width: 1px; align-self: stretch;
+      background: var(--accent); opacity: 0.5;
+    }
+    .slide-section .section-text h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-section-h);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin: 0 0 24px;
+    }
+    .slide-section .section-text p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-sub);
+      color: var(--muted);
+      line-height: 1.4;
+      margin: 0; max-width: 90%;
+    }
+
+    /* ============================================================
+       LAYOUT 3: slide-content
+       ============================================================ */
+    .slide-content h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-content .accent-rule { margin: 20px 0 40px; }
+    .slide-content ul {
+      list-style: none;
+      padding: 0; margin: 0;
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .slide-content ul li {
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 22px;
+    }
+    .slide-content ul li::before {
+      content: "—";
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .slide-content.dense h2 { font-size: 44px; }
+    .slide-content.dense ul { font-size: 28px; line-height: 1.5; }
+    .slide-content.dense ul li { margin-bottom: 14px; }
+
+    /* ============================================================
+       LAYOUT 4: slide-two   (figure / stat + text)
+       ============================================================ */
+    .slide-two h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-two .accent-rule { margin: 20px 0 32px; }
+    .slide-two .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      flex: 1;
+    }
+    .slide-two .figure {
+      background: #ffffff;
+      border: 1px solid #d8d2c8;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 32px;
+    }
+    .slide-two .figure img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    .slide-two .figure-cap {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-tiny);
+      color: var(--muted);
+      margin-top: 16px;
+      text-align: center;
+    }
+    .slide-two .text-col {
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .slide-two .stat {
+      font-family: var(--font-serif);
+      font-size: var(--size-stat);
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -3px;
+      line-height: 1;
+    }
+    .slide-two .stat-label {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .slide-two .text-col p {
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 32px 0 0;
+    }
+
+    /* ============================================================
+       LAYOUT 5: slide-quote
+       ============================================================ */
+    .slide-quote .slide-body {
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 80px; padding-right: 80px;
+    }
+    .slide-quote .quote-mark {
+      font-family: var(--font-serif);
+      font-size: 160px;
+      line-height: 0.4;
+      color: var(--accent);
+      margin-bottom: 36px;
+    }
+    .slide-quote .quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-quote);
+      line-height: 1.35;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      margin: 0;
+      max-width: 88%;
+    }
+    .slide-quote .attr {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 40px;
+    }
+
+    /* ============================================================
+       LAYOUT 6: slide-figure   (one dominant image)
+       ============================================================ */
+    .slide-figure .slide-body {
+      gap: 24px;
+    }
+    .slide-figure .figure-area {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #d8d2c8;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      padding: 28px;
+    }
+    .slide-figure .figure-area img,
+    .slide-figure .figure-area svg {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    .slide-figure .figure-cap {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-sub);
+      color: var(--muted);
+      line-height: 1.4;
+      margin: 0;
+      max-width: 90%;
+    }
+    .slide-figure .figure-cap b {
+      font-style: normal;
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-right: 14px;
+    }
+
+    /* ============================================================
+       LAYOUT 7: slide-code
+       ============================================================ */
+    .slide-code h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-code .accent-rule { margin: 20px 0 28px; }
+    .slide-code .code-block {
+      background: #ece5d7;          /* paper, one notch darker */
+      border: 1px solid #d8d2c8;
+      padding: 32px 40px;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+    }
+    .slide-code .code-lang {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-family: var(--font-sans);
+      font-size: var(--size-tiny);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .slide-code .lines {
+      font-family: var(--font-mono);
+      font-size: 26px; line-height: 1.55;
+      color: #999;
+      text-align: right;
+      padding-right: 24px;
+      border-right: 1px solid #c8c2b6;
+      margin-right: 24px;
+      user-select: none;
+    }
+    .slide-code .code {
+      font-family: var(--font-mono);
+      font-size: 26px; line-height: 1.55;
+      color: var(--ink);
+      white-space: pre;
+      flex: 1;
+    }
+    .slide-code .code .k { color: var(--accent); }   /* keyword */
+    .slide-code .code .s { color: #6f8a4b; }         /* string  */
+    .slide-code .code .c { color: var(--faint); }    /* comment */
+
+    /* ============================================================
+       LAYOUT 8: slide-end   (references or thank-you / Q&A)
+       ============================================================ */
+    .slide-end h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-end .accent-rule { margin: 20px 0 32px; }
+    .slide-end .refs {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      column-gap: 24px;
+      row-gap: 22px;
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .slide-end .refs .n {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 1px;
+      color: var(--accent);
+      text-align: right;
+      padding-top: 6px;
+    }
+    .slide-end .refs em { color: var(--muted); }
+
+    /* "Thanks" variant: center massive serif + sans Q&A line. */
+    .slide-end.thanks .slide-body {
+      justify-content: center; align-items: flex-start;
+    }
+    .slide-end.thanks h2 {
+      font-size: 140px; font-weight: 400; letter-spacing: -3px;
+      line-height: 1;
+    }
+    .slide-end.thanks .qa {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 48px;
+    }
+
+    /* ============================================================
+       MODES  —  body classes toggled by JS.
+       ============================================================ */
+    /* Overview grid: shrink the stage and re-flow slides as a grid. */
+    body.is-grid {
+      overflow: auto;
+    }
+    body.is-grid .stage {
+      position: static;
+      width: 100%; height: auto;
+      transform: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 32px;
+      box-sizing: border-box;
+      background: #222;
+    }
+    body.is-grid .slide {
+      display: block !important;          /* override .is-current exclusivity */
+      width: 100%; height: auto;
+      aspect-ratio: 16 / 9;
+      transform: scale(0.25); transform-origin: top left;
+      /* Use a wrapper trick: scale the slide and reserve space for it */
+      position: relative;
+    }
+    /* Wrap each slide in a grid cell that reserves the post-scale footprint. */
+    body.is-grid .slide-wrap {
+      width: 100%; aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--paper);
+      cursor: pointer;
+      outline: 2px solid transparent;
+      transition: outline-color 0.15s;
+    }
+    body.is-grid .slide-wrap:hover { outline-color: var(--accent); }
+    body.is-grid .slide-wrap.is-current-thumb { outline-color: var(--accent); }
+    /* Black / white screens */
+    body.is-black::after,
+    body.is-white::after {
+      content: ""; position: fixed; inset: 0; z-index: 10000;
+    }
+    body.is-black::after { background: #000; }
+    body.is-white::after { background: #fff; }
+
+    /* Cheat sheet overlay */
+    .cheat-overlay {
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff; font-family: var(--font-sans);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cheat-overlay .cheat-box {
+      max-width: 600px; padding: 40px 56px;
+      background: #111; border: 1px solid #333;
+      font-size: 16px; line-height: 1.7;
+    }
+    .cheat-overlay h3 {
+      margin: 0 0 20px; font-family: var(--font-serif);
+      font-size: 24px; font-weight: 400; letter-spacing: -0.5px;
+    }
+    .cheat-overlay table { border-collapse: collapse; width: 100%; }
+    .cheat-overlay td { padding: 4px 0; vertical-align: top; }
+    .cheat-overlay td:first-child {
+      width: 220px; color: #c9b27c;
+      font-family: monospace; font-size: 14px;
+    }
+    .cheat-overlay .cheat-dismiss {
+      margin-top: 20px; font-size: 13px; color: #999;
+    }
+
+    /* Rehearsal notes box */
+    .notes { display: none; }
+    body.is-notes .slide.is-current .notes {
+      display: block;
+      position: fixed; bottom: 24px; right: 24px;
+      max-width: 380px; padding: 18px 22px;
+      background: rgba(255, 255, 255, 0.95);
+      border-left: 3px solid var(--accent);
+      font-family: var(--font-sans); font-size: 16px;
+      line-height: 1.5; color: var(--ink);
+      z-index: 9998;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    }
+    /* ============================================================
+       PRINT  —  Ctrl/Cmd + P exports one slide per page.
+       ============================================================ */
+    @page { size: 1920px 1080px; margin: 0; }
+    @media print {
+      html, body {
+        background: #fff !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .stage {
+        position: static !important;
+        transform: none !important;
+        width: 1920px; height: auto;
+        left: 0 !important; top: 0 !important;
+        display: block !important;
+      }
+      .slide {
+        display: block !important;
+        width: 1920px; height: 1080px;
+        page-break-after: always;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+      }
+      .slide:last-child { page-break-after: auto; }
+      /* Hide UI overlays in print. */
+      #num-buffer, #cheat-overlay, .notes { display: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+
+    <section class="slide slide-title">
+      <header class="slide-head">
+        <span>KCLNLP · Talk 01</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="kicker">No. 01 — Scaling</div>
+        <h1>Smaller language models,<br>trained on the right data.</h1>
+        <p class="sub">A look at where parameter efficiency stops paying its bills, and where curated data starts.</p>
+        <div class="accent-rule"></div>
+        <p class="meta">Jane Doe · King's College London · Dec 2026</p>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-section">
+      <header class="slide-head">
+        <span>Part Two</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="section-num">02</div>
+        <div class="section-rule"></div>
+        <div class="section-text">
+          <h2>The data curation premium</h2>
+          <p>What we mean by "right data" — three quantitative axes.</p>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-content">
+      <header class="slide-head">
+        <span>Method</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Three properties of "right data"</h2>
+        <div class="accent-rule"></div>
+        <ul>
+          <li>Coverage — every reasoning skill seen at least 50× during training.</li>
+          <li>De-duplication at the document level, not just the n-gram level.</li>
+          <li>A held-out test split drawn from a different time period entirely.</li>
+          <li>Sampled at 1.3B params, then re-verified at 350M and 7B scale.</li>
+        </ul>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+      <aside class="notes">
+        Spend extra time on point 3 — reviewers always ask about temporal contamination.
+        Have the Sept-2024 cutoff date ready.
+      </aside>
+    </section>
+
+    <section class="slide slide-two">
+      <header class="slide-head">
+        <span>Result</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Five benchmarks, one finding</h2>
+        <div class="accent-rule"></div>
+        <div class="two-cols">
+          <div class="figure">
+            <!-- Placeholder figure: an inline SVG bar chart. -->
+            <svg viewBox="0 0 200 120" width="100%" height="320">
+              <rect x="10"  y="80" width="28" height="40"  fill="#8b3a2f" opacity="0.65"/>
+              <rect x="48"  y="60" width="28" height="60"  fill="#8b3a2f" opacity="0.75"/>
+              <rect x="86"  y="40" width="28" height="80"  fill="#8b3a2f"/>
+              <rect x="124" y="20" width="28" height="100" fill="#8b3a2f" opacity="0.85"/>
+              <rect x="162" y="10" width="28" height="110" fill="#8b3a2f" opacity="0.95"/>
+            </svg>
+            <div class="figure-cap">Fig 1 · Accuracy across MMLU, ARC-c, GSM8K, HellaSwag, TruthfulQA.</div>
+          </div>
+          <div class="text-col">
+            <div class="stat">−82%</div>
+            <div class="stat-label">Inference cost vs. 7B baseline</div>
+            <p>At 1.3B parameters our model matches the 7B baseline on four of five benchmarks at 18% of the cost.</p>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-quote">
+      <header class="slide-head">
+        <span>Main result</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote">Smaller models, trained on the right data, beat larger ones — and they keep beating them as you scale.</p>
+        <div class="attr">— Main result · Section 4</div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-figure">
+      <header class="slide-head">
+        <span>Figure</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="figure-area">
+          <svg viewBox="0 0 600 320" width="100%" height="100%">
+            <line x1="60"  y1="280" x2="560" y2="280" stroke="#1a1a1a" stroke-width="1"/>
+            <line x1="60"  y1="40"  x2="60"  y2="280" stroke="#1a1a1a" stroke-width="1"/>
+            <polyline points="60,260 160,220 260,180 360,130 460,90 560,70"
+                      fill="none" stroke="#8b3a2f" stroke-width="3"/>
+            <polyline points="60,250 160,240 260,225 360,200 460,180 560,170"
+                      fill="none" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="6,4"/>
+          </svg>
+        </div>
+        <p class="figure-cap"><b>Fig 2</b>Held-out accuracy vs. training tokens. Solid: ours (1.3B + curated). Dashed: 7B baseline (uncurated web).</p>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-code">
+      <header class="slide-head">
+        <span>Implementation</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Curation pipeline (sketch)</h2>
+        <div class="accent-rule"></div>
+        <div class="code-block">
+          <div class="code-lang">Python</div>
+          <pre class="lines">1
+2
+3
+4
+5
+6
+7</pre><pre class="code"><span class="k">def</span> curate(docs):
+    docs = dedupe(docs, level=<span class="s">"document"</span>)
+    docs = filter_by_quality(docs, threshold=<span class="s">"high"</span>)
+    docs = balance_skills(docs, target=<span class="s">"uniform"</span>)
+    <span class="c"># 50× minimum exposure per reasoning skill</span>
+    docs = upsample_rare(docs, factor=<span class="s">50</span>)
+    <span class="k">return</span> docs</pre>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-end">
+      <header class="slide-head">
+        <span>Appendix</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>References</h2>
+        <div class="accent-rule"></div>
+        <div class="refs">
+          <div class="n">[1]</div><div>Hoffmann et al. <em>Training compute-optimal large language models.</em> NeurIPS 2022.</div>
+          <div class="n">[2]</div><div>Penedo et al. <em>The RefinedWeb dataset for Falcon LLM.</em> arXiv 2023.</div>
+          <div class="n">[3]</div><div>Sorscher et al. <em>Beyond neural scaling laws.</em> NeurIPS 2022.</div>
+          <div class="n">[4]</div><div>Lee et al. <em>Deduplicating training data makes language models better.</em> ACL 2022.</div>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-end thanks">
+      <header class="slide-head">
+        <span>Q & A</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Thank you.</h2>
+        <div class="accent-rule"></div>
+        <div class="qa">jane.doe@kcl.ac.uk · @kclnlp</div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+  </div>
+
+  <script>
+    /* ============================================================
+       SlidePresentation
+       Core responsibilities (this task):
+         - fit() : compute --scale on every resize
+         - currentIndex tracking, .is-current class management
+         - hashchange sync (#7 jumps to slide 7)
+         - [data-auto-page] auto-fill with "n / total"
+       Navigation, modes, and overlays come in later tasks.
+       ============================================================ */
+    class SlidePresentation {
+      constructor() {
+        this.stage  = document.querySelector('.stage');
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.total  = this.slides.length;
+        this.currentIndex = this._readHash();
+
+        this._fillAutoPage();
+        this._fit();
+        this._show(this.currentIndex);
+
+        window.addEventListener('resize',     () => this._fit());
+        window.addEventListener('hashchange', () => this._onHash());
+        window.addEventListener('keydown',    (e) => this._onKey(e));
+        window.addEventListener('contextmenu',(e) => { e.preventDefault(); this.next(); });
+
+        // Touch swipe
+        this._touchStartX = null;
+        window.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) this._touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+          if (this._touchStartX === null) return;
+          const dx = e.changedTouches[0].clientX - this._touchStartX;
+          if (Math.abs(dx) > 50) (dx < 0 ? this.next() : this.prev());
+          this._touchStartX = null;
+        }, { passive: true });
+
+        // Numeric jump buffer
+        this._numBuffer = '';
+
+        // URL param activation.
+        const params = new URLSearchParams(location.search);
+        if (params.has('notes')) document.body.classList.add('is-notes');
+        if (params.has('grid'))  this._toggleGrid();
+      }
+
+      /* ---- public navigation ---- */
+      next() { this._show(this.currentIndex + 1); }
+      prev() { this._show(this.currentIndex - 1); }
+      first() { this._show(0); }
+      last() { this._show(this.total - 1); }
+      goTo(n1) { this._show(n1 - 1); }  // 1-indexed for humans
+
+      /* ---- keyboard ---- */
+      _onKey(e) {
+        // Don't hijack typing inside form controls.
+        const t = e.target;
+        if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+
+        // Ignore key events fired during IME composition.
+        if (e.isComposing || e.keyCode === 229) return;
+
+        if (e.metaKey || e.ctrlKey || e.altKey) return;   // leave shortcuts alone
+
+        // Numeric buffer: digits accumulate, Enter commits, Esc clears.
+        if (/^[0-9]$/.test(e.key)) {
+          this._numBuffer += e.key;
+          this._renderNumBuffer();
+          return;
+        }
+        if (e.key === 'Enter' && this._numBuffer) {
+          const n = parseInt(this._numBuffer, 10);
+          this._numBuffer = '';
+          this._renderNumBuffer();
+          this.goTo(n);
+          return;
+        }
+        if (e.key === 'Escape' && this._numBuffer) {
+          this._numBuffer = '';
+          this._renderNumBuffer();
+          return;
+        }
+
+        // Any non-digit / non-Enter / non-Escape key arriving here cancels a pending jump.
+        if (this._numBuffer) {
+          this._numBuffer = '';
+          this._renderNumBuffer();
+        }
+
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+          case 'PageDown':
+          case ' ':
+            if (e.shiftKey) this.prev(); else this.next();
+            e.preventDefault();
+            break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+          case 'PageUp':
+            this.prev();
+            e.preventDefault();
+            break;
+          case 'Home':
+            this.first();
+            e.preventDefault();
+            break;
+          case 'End':
+            this.last();
+            e.preventDefault();
+            break;
+          case 'b': case 'B':
+            this._toggleBody('is-black');
+            e.preventDefault();
+            break;
+          case 'w': case 'W':
+            this._toggleBody('is-white');
+            e.preventDefault();
+            break;
+          case 'f': case 'F':
+            this._toggleFullscreen();
+            e.preventDefault();
+            break;
+          case 'o': case 'O':
+            this._toggleGrid();
+            e.preventDefault();
+            break;
+          case 'Escape':
+            if (document.body.classList.contains('is-grid')) {
+              this._toggleGrid();
+              e.preventDefault();
+            } else if (document.body.classList.contains('is-black') ||
+                       document.body.classList.contains('is-white')) {
+              document.body.classList.remove('is-black', 'is-white');
+              e.preventDefault();
+            } else if (this._cheatOpen) {
+              this._toggleCheat();
+              e.preventDefault();
+            }
+            break;
+          case '?': case 'h': case 'H':
+            this._toggleCheat();
+            e.preventDefault();
+            break;
+        }
+      }
+
+      /* ---- modes ---- */
+      _toggleBody(cls) {
+        // Mutually exclusive between black and white.
+        if (cls === 'is-black') document.body.classList.remove('is-white');
+        if (cls === 'is-white') document.body.classList.remove('is-black');
+        document.body.classList.toggle(cls);
+      }
+
+      _toggleFullscreen() {
+        const doc = document;
+        const el  = doc.documentElement;
+        const isFs = doc.fullscreenElement || doc.webkitFullscreenElement;
+        if (isFs) {
+          (doc.exitFullscreen || doc.webkitExitFullscreen).call(doc);
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        }
+      }
+
+      _toggleGrid() {
+        const on = document.body.classList.toggle('is-grid');
+        if (on) {
+          // Grid mode subsumes other overlay states.
+          document.body.classList.remove('is-black', 'is-white');
+          if (this._cheatOpen) this._toggleCheat();
+          // Wrap each slide in a .slide-wrap cell that handles click-to-jump.
+          this.slides.forEach((slide, n) => {
+            if (slide.parentElement.classList.contains('slide-wrap')) return;
+            const wrap = document.createElement('div');
+            wrap.className = 'slide-wrap';
+            if (n === this.currentIndex) wrap.classList.add('is-current-thumb');
+            slide.parentNode.insertBefore(wrap, slide);
+            wrap.appendChild(slide);
+            wrap.addEventListener('click', () => {
+              this._toggleGrid();
+              this._show(n);
+            });
+          });
+        } else {
+          // Unwrap and restore single-slide display.
+          this.slides.forEach((slide) => {
+            const wrap = slide.parentElement;
+            if (wrap.classList.contains('slide-wrap')) {
+              wrap.parentNode.insertBefore(slide, wrap);
+              wrap.remove();
+            }
+          });
+          // Restore exclusive .is-current.
+          this._show(this.currentIndex);
+        }
+      }
+
+      _toggleCheat() {
+        let el = document.getElementById('cheat-overlay');
+        if (el) {
+          el.remove();
+          this._cheatOpen = false;
+        } else {
+          el = document.createElement('div');
+          el.id = 'cheat-overlay';
+          el.className = 'cheat-overlay';
+          el.innerHTML = `
+            <div class="cheat-box">
+              <h3>Keyboard shortcuts</h3>
+              <table>
+                <tr><td>→ ↓ Space PageDn</td><td>Next slide</td></tr>
+                <tr><td>← ↑ Shift+Space PageUp</td><td>Previous slide</td></tr>
+                <tr><td>Home / End</td><td>First / Last slide</td></tr>
+                <tr><td>digits + Enter</td><td>Jump to slide N</td></tr>
+                <tr><td>O / Esc</td><td>Toggle overview grid</td></tr>
+                <tr><td>B</td><td>Black screen</td></tr>
+                <tr><td>W</td><td>White screen</td></tr>
+                <tr><td>F</td><td>Fullscreen</td></tr>
+                <tr><td>Ctrl/Cmd + P</td><td>Print / export PDF</td></tr>
+                <tr><td>? / H</td><td>This cheat sheet</td></tr>
+              </table>
+              <div class="cheat-dismiss">Press ? or Esc to dismiss.</div>
+            </div>`;
+          el.addEventListener('click', () => this._toggleCheat());
+          document.body.appendChild(el);
+          this._cheatOpen = true;
+        }
+      }
+
+      _renderNumBuffer() {
+        let el = document.getElementById('num-buffer');
+        if (!this._numBuffer) {
+          if (el) el.remove();
+          return;
+        }
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'num-buffer';
+          el.style.cssText =
+            'position:fixed;bottom:24px;right:24px;background:rgba(0,0,0,0.7);' +
+            'color:#fff;font-family:monospace;font-size:20px;padding:8px 14px;' +
+            'border-radius:4px;z-index:99999;';
+          document.body.appendChild(el);
+        }
+        el.textContent = '→ ' + this._numBuffer;
+      }
+
+      /* ---- scaling ---- */
+      _fit() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const scale = Math.min(w / 1920, h / 1080);
+        document.documentElement.style.setProperty('--scale', scale);
+        // Center the scaled stage in the viewport.
+        const offsetX = (w - 1920 * scale) / 2;
+        const offsetY = (h - 1080 * scale) / 2;
+        this.stage.style.left = offsetX + 'px';
+        this.stage.style.top  = offsetY + 'px';
+      }
+
+      /* ---- current slide ---- */
+      _show(i) {
+        i = Math.max(0, Math.min(this.total - 1, i));
+        this.slides.forEach((s, n) => s.classList.toggle('is-current', n === i));
+        this.currentIndex = i;
+        // Update hash without re-triggering hashchange.
+        const want = '#' + (i + 1);
+        if (location.hash !== want) {
+          history.replaceState(null, '', want);
+        }
+      }
+
+      /* ---- hash sync ---- */
+      _readHash() {
+        const m = (location.hash || '').match(/^#(\d+)$/);
+        if (!m) return 0;
+        return Math.max(0, Math.min(this.total - 1, parseInt(m[1], 10) - 1));
+      }
+      _onHash() {
+        const i = this._readHash();
+        if (i !== this.currentIndex) this._show(i);
+      }
+
+      /* ---- auto page numbers ---- */
+      _fillAutoPage() {
+        this.slides.forEach((slide, n) => {
+          slide.querySelectorAll('[data-auto-page]').forEach(el => {
+            // Only fill if empty so authors can hand-write a custom value.
+            if (el.textContent.trim() === '') {
+              el.textContent = (n + 1) + ' / ' + this.total;
+            }
+          });
+        });
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+</body>
+</html>
