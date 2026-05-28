@@ -251,6 +251,70 @@
     .slide-content.dense ul li { margin-bottom: 14px; }
 
     /* ============================================================
+       LAYOUT 4: slide-two   (figure / stat + text)
+       ============================================================ */
+    .slide-two h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-two .accent-rule { margin: 20px 0 32px; }
+    .slide-two .two-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      flex: 1;
+    }
+    .slide-two .figure {
+      background: #ffffff;
+      border: 1px solid #d8d2c8;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 32px;
+    }
+    .slide-two .figure img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    .slide-two .figure-cap {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-tiny);
+      color: var(--muted);
+      margin-top: 16px;
+      text-align: center;
+    }
+    .slide-two .text-col {
+      display: flex; flex-direction: column;
+      justify-content: center;
+    }
+    .slide-two .stat {
+      font-family: var(--font-serif);
+      font-size: var(--size-stat);
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -3px;
+      line-height: 1;
+    }
+    .slide-two .stat-label {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .slide-two .text-col p {
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 32px 0 0;
+    }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -419,6 +483,39 @@
           <li>A held-out test split drawn from a different time period entirely.</li>
           <li>Sampled at 1.3B params, then re-verified at 350M and 7B scale.</li>
         </ul>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-two">
+      <header class="slide-head">
+        <span>Result</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Five benchmarks, one finding</h2>
+        <div class="accent-rule"></div>
+        <div class="two-cols">
+          <div class="figure">
+            <!-- Placeholder figure: an inline SVG bar chart. -->
+            <svg viewBox="0 0 200 120" width="100%" height="320">
+              <rect x="10"  y="80" width="28" height="40"  fill="#8b3a2f" opacity="0.65"/>
+              <rect x="48"  y="60" width="28" height="60"  fill="#8b3a2f" opacity="0.75"/>
+              <rect x="86"  y="40" width="28" height="80"  fill="#8b3a2f"/>
+              <rect x="124" y="20" width="28" height="100" fill="#8b3a2f" opacity="0.85"/>
+              <rect x="162" y="10" width="28" height="110" fill="#8b3a2f" opacity="0.95"/>
+            </svg>
+            <div class="figure-cap">Fig 1 · Accuracy across MMLU, ARC-c, GSM8K, HellaSwag, TruthfulQA.</div>
+          </div>
+          <div class="text-col">
+            <div class="stat">−82%</div>
+            <div class="stat-label">Inference cost vs. 7B baseline</div>
+            <p>At 1.3B parameters our model matches the 7B baseline on four of five benchmarks at 18% of the cost.</p>
+          </div>
+        </div>
       </div>
       <footer class="slide-foot">
         <span>KCL · NLP Group · Alan Turing</span>
