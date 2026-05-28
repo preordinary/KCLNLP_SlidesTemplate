@@ -38,6 +38,9 @@ venv/
 # Superpowers brainstorming session files
 .superpowers/
 
+# Superpowers design specs and implementation plans (maintainer-local)
+docs/superpowers/
+
 # Template source code — lab members only need the .pptx files.
 # Code stays out of the repo; maintainers keep local copies.
 templates/*/build.py
