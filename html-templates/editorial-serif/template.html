@@ -138,12 +138,6 @@
     }
     body.is-grid .slide-wrap:hover { outline-color: var(--accent); }
     body.is-grid .slide-wrap.is-current-thumb { outline-color: var(--accent); }
-    body.is-grid .slide-wrap .slide {
-      width: 1920px; height: 1080px;
-      transform: scale(calc(100% / 1920 * var(--thumb-w, 320)));
-      /* Fallback: use a known scale rather than a calc that JS sets per cell */
-    }
-
     /* Black / white screens */
     body.is-black::after,
     body.is-white::after {
@@ -258,8 +252,6 @@
         const params = new URLSearchParams(location.search);
         if (params.has('notes')) document.body.classList.add('is-notes');
         if (params.has('grid'))  this._toggleGrid();
-        // ?print is handled by CSS @media print + an immediate window.print() would
-        // be hostile; leave the param as documentation only.
       }
 
       /* ---- public navigation ---- */
@@ -385,6 +377,9 @@
       _toggleGrid() {
         const on = document.body.classList.toggle('is-grid');
         if (on) {
+          // Grid mode subsumes other overlay states.
+          document.body.classList.remove('is-black', 'is-white');
+          if (this._cheatOpen) this._toggleCheat();
           // Wrap each slide in a .slide-wrap cell that handles click-to-jump.
           this.slides.forEach((slide, n) => {
             if (slide.parentElement.classList.contains('slide-wrap')) return;
@@ -398,8 +393,6 @@
               this._show(n);
             });
           });
-          // In grid mode every slide must render, regardless of .is-current.
-          this.slides.forEach(s => s.classList.add('is-current'));
         } else {
           // Unwrap and restore single-slide display.
           this.slides.forEach((slide) => {
