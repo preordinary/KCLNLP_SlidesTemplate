@@ -145,6 +145,96 @@
 
         window.addEventListener('resize',     () => this._fit());
         window.addEventListener('hashchange', () => this._onHash());
+        window.addEventListener('keydown',    (e) => this._onKey(e));
+        window.addEventListener('contextmenu',(e) => { e.preventDefault(); this.next(); });
+
+        // Touch swipe
+        this._touchStartX = null;
+        window.addEventListener('touchstart', (e) => {
+          if (e.touches.length === 1) this._touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+          if (this._touchStartX === null) return;
+          const dx = e.changedTouches[0].clientX - this._touchStartX;
+          if (Math.abs(dx) > 50) (dx < 0 ? this.next() : this.prev());
+          this._touchStartX = null;
+        }, { passive: true });
+
+        // Numeric jump buffer
+        this._numBuffer = '';
+      }
+
+      /* ---- public navigation ---- */
+      next() { this._show(this.currentIndex + 1); }
+      prev() { this._show(this.currentIndex - 1); }
+      first() { this._show(0); }
+      last() { this._show(this.total - 1); }
+      goTo(n1) { this._show(n1 - 1); }  // 1-indexed for humans
+
+      /* ---- keyboard ---- */
+      _onKey(e) {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;   // leave shortcuts alone
+
+        // Numeric buffer: digits accumulate, Enter commits, Esc clears.
+        if (/^[0-9]$/.test(e.key)) {
+          this._numBuffer += e.key;
+          this._renderNumBuffer();
+          return;
+        }
+        if (e.key === 'Enter' && this._numBuffer) {
+          const n = parseInt(this._numBuffer, 10);
+          this._numBuffer = '';
+          this._renderNumBuffer();
+          this.goTo(n);
+          return;
+        }
+        if (e.key === 'Escape' && this._numBuffer) {
+          this._numBuffer = '';
+          this._renderNumBuffer();
+          return;
+        }
+
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+          case 'PageDown':
+          case ' ':
+            if (e.shiftKey) this.prev(); else this.next();
+            e.preventDefault();
+            break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+          case 'PageUp':
+            this.prev();
+            e.preventDefault();
+            break;
+          case 'Home':
+            this.first();
+            e.preventDefault();
+            break;
+          case 'End':
+            this.last();
+            e.preventDefault();
+            break;
+        }
+      }
+
+      _renderNumBuffer() {
+        let el = document.getElementById('num-buffer');
+        if (!this._numBuffer) {
+          if (el) el.remove();
+          return;
+        }
+        if (!el) {
+          el = document.createElement('div');
+          el.id = 'num-buffer';
+          el.style.cssText =
+            'position:fixed;bottom:24px;right:24px;background:rgba(0,0,0,0.7);' +
+            'color:#fff;font-family:monospace;font-size:20px;padding:8px 14px;' +
+            'border-radius:4px;z-index:99999;';
+          document.body.appendChild(el);
+        }
+        el.textContent = '→ ' + this._numBuffer;
       }
 
       /* ---- scaling ---- */
