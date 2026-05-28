@@ -110,6 +110,14 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
 
 - Download: [`templates/deep_plum/KCLNLP_DeepPlum_Poster.pptx`](templates/deep_plum/KCLNLP_DeepPlum_Poster.pptx)
 
+## HTML deck template
+
+A browser-based, single-file alternative to the pptx decks lives at
+[`html-templates/editorial-serif/`](html-templates/editorial-serif/).
+Copy `template.html`, edit the slides inline, open in any browser —
+no build step. See the directory's own README for the full keyboard
+map and layout reference.
+
 ## Usage
 
 1. Download the `.pptx` file for the template you want (deck or poster).
