@@ -173,6 +173,13 @@
 
       /* ---- keyboard ---- */
       _onKey(e) {
+        // Don't hijack typing inside form controls.
+        const t = e.target;
+        if (t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+
+        // Ignore key events fired during IME composition.
+        if (e.isComposing || e.keyCode === 229) return;
+
         if (e.metaKey || e.ctrlKey || e.altKey) return;   // leave shortcuts alone
 
         // Numeric buffer: digits accumulate, Enter commits, Esc clears.
@@ -192,6 +199,12 @@
           this._numBuffer = '';
           this._renderNumBuffer();
           return;
+        }
+
+        // Any non-digit / non-Enter / non-Escape key arriving here cancels a pending jump.
+        if (this._numBuffer) {
+          this._numBuffer = '';
+          this._renderNumBuffer();
         }
 
         switch (e.key) {
