@@ -180,6 +180,43 @@
     .slide-title.cover-only .meta { display: none; }
 
     /* ============================================================
+       LAYOUT 2: slide-section
+       ============================================================ */
+    .slide-section .slide-body {
+      flex-direction: row;
+      align-items: center;
+      gap: 80px;
+    }
+    .slide-section .section-num {
+      font-family: var(--font-serif);
+      font-size: var(--size-section);
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: -6px;
+    }
+    .slide-section .section-rule {
+      width: 1px; align-self: stretch;
+      background: var(--accent); opacity: 0.5;
+    }
+    .slide-section .section-text h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-section-h);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin: 0 0 24px;
+    }
+    .slide-section .section-text p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--size-sub);
+      color: var(--muted);
+      line-height: 1.4;
+      margin: 0; max-width: 90%;
+    }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -315,11 +352,23 @@
       </footer>
     </section>
 
-    <section class="slide slide-content">
-      <h1>Slide two.</h1>
-      <p style="font-family: var(--font-sans); font-size: var(--size-meta); margin-top:40px;">
-        Page <span data-auto-page></span>
-      </p>
+    <section class="slide slide-section">
+      <header class="slide-head">
+        <span>Part Two</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <div class="section-num">02</div>
+        <div class="section-rule"></div>
+        <div class="section-text">
+          <h2>The data curation premium</h2>
+          <p>What we mean by "right data" — three quantitative axes.</p>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
     </section>
 
   </div>
