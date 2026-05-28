@@ -110,7 +110,7 @@ differently — Chrome is the recommended exporter.
 | `template.html`     | The blank starter. Copy this to begin a new talk.             |
 | `example-talk.html` | A populated example with all 8 layouts and a notes example.   |
 | `README.md`         | This file.                                                    |
-| `assets/logos/`     | KCL / KCLNLP / Alan Turing PNGs you may reference in slides.  |
+| `assets/logos/`     | KCL / KCLNLP / Alan Turing PNGs shown in every slide's footer. |
 
 The CSS and JS are duplicated between `template.html` and
 `example-talk.html`. This is intentional — it preserves the
