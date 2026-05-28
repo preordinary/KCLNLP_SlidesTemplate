@@ -9,13 +9,29 @@ Open it in any modern browser, scale to any 16:9 display, edit as plain HTML.
 
 ## Quickstart
 
+This directory ships two HTML files. They play different roles:
+
+- **`template.html`** — the **starter**. Copy this when you begin a new
+  talk. It already has 9 slides, one of every layout, with placeholder
+  content. Replace the content; keep the structure.
+- **`example-talk.html`** — the **reference**. A populated worked example
+  showing how a real talk reads, plus a presenter-notes block you can
+  copy-paste into your own deck. Don't edit this file in place; treat
+  it as a cheat sheet to open alongside your editor.
+
+Steps:
+
 1. Copy `template.html` to a new file:
    ```bash
    cp template.html my-talk.html
    ```
 2. Open `my-talk.html` in your editor. Change the `<title>` and the
    first `<section>`. Add, remove, or reorder further `<section>`
-   blocks using the layouts listed below.
+   blocks using the layouts listed below. Keep `example-talk.html`
+   open in your browser to see what each layout is supposed to look
+   like, and dip into its source whenever you need the HTML for a
+   layout you haven't used before (presenter notes, code blocks,
+   two-column figures, etc.).
 3. Double-click `my-talk.html` to open it in your browser. Done.
    No build step, no install, no server.
 
