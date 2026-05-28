@@ -437,6 +437,54 @@
     .slide-code .code .c { color: var(--faint); }    /* comment */
 
     /* ============================================================
+       LAYOUT 8: slide-end   (references or thank-you / Q&A)
+       ============================================================ */
+    .slide-end h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-end .accent-rule { margin: 20px 0 32px; }
+    .slide-end .refs {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      column-gap: 24px;
+      row-gap: 22px;
+      font-family: var(--font-serif);
+      font-size: var(--size-body);
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .slide-end .refs .n {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 1px;
+      color: var(--accent);
+      text-align: right;
+      padding-top: 6px;
+    }
+    .slide-end .refs em { color: var(--muted); }
+
+    /* "Thanks" variant: center massive serif + sans Q&A line. */
+    .slide-end.thanks .slide-body {
+      justify-content: center; align-items: flex-start;
+    }
+    .slide-end.thanks h2 {
+      font-size: 140px; font-weight: 400; letter-spacing: -3px;
+      line-height: 1;
+    }
+    .slide-end.thanks .qa {
+      font-family: var(--font-sans);
+      font-size: var(--size-meta);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 48px;
+    }
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -709,6 +757,43 @@
     docs = upsample_rare(docs, factor=<span class="s">50</span>)
     <span class="k">return</span> docs</pre>
         </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-end">
+      <header class="slide-head">
+        <span>Appendix</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>References</h2>
+        <div class="accent-rule"></div>
+        <div class="refs">
+          <div class="n">[1]</div><div>Hoffmann et al. <em>Training compute-optimal large language models.</em> NeurIPS 2022.</div>
+          <div class="n">[2]</div><div>Penedo et al. <em>The RefinedWeb dataset for Falcon LLM.</em> arXiv 2023.</div>
+          <div class="n">[3]</div><div>Sorscher et al. <em>Beyond neural scaling laws.</em> NeurIPS 2022.</div>
+          <div class="n">[4]</div><div>Lee et al. <em>Deduplicating training data makes language models better.</em> ACL 2022.</div>
+        </div>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-end thanks">
+      <header class="slide-head">
+        <span>Q & A</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Thank you.</h2>
+        <div class="accent-rule"></div>
+        <div class="qa">jane.doe@kcl.ac.uk · @kclnlp</div>
       </div>
       <footer class="slide-foot">
         <span>KCL · NLP Group · Alan Turing</span>
