@@ -387,6 +387,56 @@
     }
 
     /* ============================================================
+       LAYOUT 7: slide-code
+       ============================================================ */
+    .slide-code h2 {
+      font-family: var(--font-serif);
+      font-size: var(--size-h2);
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .slide-code .accent-rule { margin: 20px 0 28px; }
+    .slide-code .code-block {
+      background: #ece5d7;          /* paper, one notch darker */
+      border: 1px solid #d8d2c8;
+      padding: 32px 40px;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+    }
+    .slide-code .code-lang {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-family: var(--font-sans);
+      font-size: var(--size-tiny);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .slide-code .lines {
+      font-family: var(--font-mono);
+      font-size: 26px; line-height: 1.55;
+      color: #999;
+      text-align: right;
+      padding-right: 24px;
+      border-right: 1px solid #c8c2b6;
+      margin-right: 24px;
+      user-select: none;
+    }
+    .slide-code .code {
+      font-family: var(--font-mono);
+      font-size: 26px; line-height: 1.55;
+      color: var(--ink);
+      white-space: pre;
+      flex: 1;
+    }
+    .slide-code .code .k { color: var(--accent); }   /* keyword */
+    .slide-code .code .s { color: #6f8a4b; }         /* string  */
+    .slide-code .code .c { color: var(--faint); }    /* comment */
+
+    /* ============================================================
        MODES  —  body classes toggled by JS.
        ============================================================ */
     /* Overview grid: shrink the stage and re-flow slides as a grid. */
@@ -628,6 +678,37 @@
           </svg>
         </div>
         <p class="figure-cap"><b>Fig 2</b>Held-out accuracy vs. training tokens. Solid: ours (1.3B + curated). Dashed: 7B baseline (uncurated web).</p>
+      </div>
+      <footer class="slide-foot">
+        <span>KCL · NLP Group · Alan Turing</span>
+        <span data-auto-page></span>
+      </footer>
+    </section>
+
+    <section class="slide slide-code">
+      <header class="slide-head">
+        <span>Implementation</span>
+        <span>EMNLP 2026</span>
+      </header>
+      <div class="slide-body">
+        <h2>Curation pipeline (sketch)</h2>
+        <div class="accent-rule"></div>
+        <div class="code-block">
+          <div class="code-lang">Python</div>
+          <pre class="lines">1
+2
+3
+4
+5
+6
+7</pre><pre class="code"><span class="k">def</span> curate(docs):
+    docs = dedupe(docs, level=<span class="s">"document"</span>)
+    docs = filter_by_quality(docs, threshold=<span class="s">"high"</span>)
+    docs = balance_skills(docs, target=<span class="s">"uniform"</span>)
+    <span class="c"># 50× minimum exposure per reasoning skill</span>
+    docs = upsample_rare(docs, factor=<span class="s">50</span>)
+    <span class="k">return</span> docs</pre>
+        </div>
       </div>
       <footer class="slide-foot">
         <span>KCL · NLP Group · Alan Turing</span>
