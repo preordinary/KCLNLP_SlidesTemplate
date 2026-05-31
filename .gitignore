@@ -53,3 +53,6 @@ templates/*/*.pdf
 # Maintainer-only helper scripts (HTML preview rendering, etc.) —
 # same policy as the pptx build scripts: code stays local.
 scripts/
+
+# Working scratch dir for re-extracted template media
+templates/original_standard/.media_extracted/
