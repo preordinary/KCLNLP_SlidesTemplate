@@ -1,17 +1,12 @@
 # KCLNLP_SlidesTemplate
 
-PowerPoint templates for the **KCL NLP** research group, designed for consistent outreach and presentation of our research work (talks, posters, seminars, reading groups, etc.).
-
-Two families are included:
-
-- **Original Standard** — the group's baseline KCL deck, with the King's College London mark in the top-right and the KCL NLP logo lockup in the bottom-left footer. Use this when you want the canonical KCL look.
-- **Side Rail (Morandi)** — four palette variants (Sage Mist, Dusty Rose, Faded Indigo, Deep Plum) sharing one skeleton: a thin full-bleed vertical brand-color bar runs down the left edge, the slide title sits in the body (no header band), and a single-line footer carries the institution on the left and the three logos — tinted to match the rail — on the right. Body content gets the full slide height to breathe. Only the Morandi palette differs between these four. Typography: Calibri for headings and body, Georgia italic for pull-quotes.
+PowerPoint templates for the **KCL NLP** research group, designed for consistent outreach and presentation of our research work (talks, posters, seminars, reading groups, etc.). Five deck templates are included: **Original Standard** (the canonical KCL look) plus four Morandi-palette variants — **Sage Mist**, **Dusty Rose**, **Faded Indigo**, and **Deep Plum** — that share a common Side Rail skeleton (a thin full-bleed vertical brand-color bar down the left edge, the slide title in the body rather than a header band, and a single-line footer with the institution on the left and the three logos tinted to match the rail on the right). Typography across the Morandi variants: Calibri for headings and body, Georgia italic for pull-quotes.
 
 ## Slides Templates
 
 ### Original Standard
 
-The original KCL-branded deck for the group — the canonical look, kept as a baseline alongside the Morandi family. King's College London mark sits in the top-right of the title slide and as a smaller mark on content slides; the KCL NLP logo lockup anchors the bottom-left of the title footer. Includes ready-made layouts for a title slide, timeline, multi-subtitle content, and a closing Q&A slide.
+The original KCL-branded deck for the group — the canonical look. King's College London mark sits in the top-right of the title slide and as a smaller mark on content slides; the KCL NLP logo lockup anchors the bottom-left of the title footer. Includes ready-made layouts for a title slide, timeline, multi-subtitle content, and a closing Q&A slide.
 
 | Title page | Content page |
 | --- | --- |
