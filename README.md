@@ -2,9 +2,23 @@
 
 PowerPoint templates for the **KCL NLP** research group, designed for consistent outreach and presentation of our research work (talks, posters, seminars, reading groups, etc.).
 
-All four templates share a single **Side Rail** skeleton — a thin full-bleed vertical brand-color bar runs down the left edge, the slide title sits in the body (no header band), and a single-line footer carries the institution on the left and the three logos — tinted to match the rail — on the right. Body content gets the full slide height to breathe. Only the Morandi palette differs between templates. Typography: Calibri for headings and body, Georgia italic for pull-quotes.
+Two families are included:
+
+- **Original Standard** — the group's baseline KCL deck, with the King's College London mark in the top-right and the KCL NLP logo lockup in the bottom-left footer. Use this when you want the canonical KCL look.
+- **Side Rail (Morandi)** — four palette variants (Sage Mist, Dusty Rose, Faded Indigo, Deep Plum) sharing one skeleton: a thin full-bleed vertical brand-color bar runs down the left edge, the slide title sits in the body (no header band), and a single-line footer carries the institution on the left and the three logos — tinted to match the rail — on the right. Body content gets the full slide height to breathe. Only the Morandi palette differs between these four. Typography: Calibri for headings and body, Georgia italic for pull-quotes.
 
 ## Slides Templates
+
+### Original Standard
+
+The original KCL-branded deck for the group — the canonical look, kept as a baseline alongside the Morandi family. King's College London mark sits in the top-right of the title slide and as a smaller mark on content slides; the KCL NLP logo lockup anchors the bottom-left of the title footer. Includes ready-made layouts for a title slide, timeline, multi-subtitle content, and a closing Q&A slide.
+
+| Title page | Content page |
+| --- | --- |
+| ![Original Standard title page](assets/images/original_standard_title.png) | ![Original Standard content page](assets/images/original_standard_content.png) |
+
+- Download: [`templates/original_standard/KCLNLP_OriginalStandard.potx`](templates/original_standard/KCLNLP_OriginalStandard.potx) (PowerPoint template, `.potx`)
+- Format: 16:9, distributed as a `.potx` so opening it in PowerPoint / Keynote / LibreOffice Impress creates a fresh deck rather than overwriting the template itself.
 
 ### Sage Mist
 
