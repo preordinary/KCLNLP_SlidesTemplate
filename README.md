@@ -6,14 +6,14 @@ PowerPoint templates for the **KCL NLP** research group, designed for consistent
 
 ### Original Standard
 
-The original KCL-branded deck for the group — the canonical look. King's College London mark sits in the top-right of the title slide and as a smaller mark on content slides; the KCL NLP logo lockup anchors the bottom-left of the title footer. Includes ready-made layouts for a title slide, timeline, multi-subtitle content, and a closing Q&A slide.
+The original KCL-branded deck for the group — the canonical look. King's College London mark sits in the top-right of the title slide and as a smaller mark on content slides; the KCL NLP logo lockup anchors the bottom-left of the title footer.
 
 | Title page | Content page |
 | --- | --- |
 | ![Original Standard title page](assets/images/original_standard_title.png) | ![Original Standard content page](assets/images/original_standard_content.png) |
 
-- Download: [`templates/original_standard/KCLNLP_OriginalStandard.potx`](templates/original_standard/KCLNLP_OriginalStandard.potx) (PowerPoint template, `.potx`)
-- Format: 16:9, distributed as a `.potx` so opening it in PowerPoint / Keynote / LibreOffice Impress creates a fresh deck rather than overwriting the template itself.
+- Download: [`templates/original_standard/KCLNLP_OriginalStandard.potx`](templates/original_standard/KCLNLP_OriginalStandard.potx)
+- 16:9. Layouts included: title slide, timeline, multi-subtitle content, closing Q&A.
 
 ### Sage Mist
 
@@ -23,7 +23,7 @@ A sage-green Morandi 16:9 deck for academic talks. Natural, restrained feel; pai
 | --- | --- |
 | ![Sage Mist title page](assets/images/sage_mist_title.png) | ![Sage Mist content page](assets/images/sage_mist_content.png) |
 
-- Download: [`templates/sage_mist/KCLNLP_SageMist.pptx`](templates/sage_mist/KCLNLP_SageMist.pptx)
+- Download: [`templates/sage_mist/KCLNLP_SageMist.potx`](templates/sage_mist/KCLNLP_SageMist.potx)
 - Layouts included: title (left-aligned + centered), section divider with large numeral, content (title + bullets), content with TAKEAWAY callout overlay, numbered list (01 / 02 / 03), two-column (figure + text), pull-quote (Georgia italic), thanks / Q&A.
 - Main colors:
   - `#5C7261` — sage-green rail, slide-title underline rule, section numerals, footer accent
@@ -40,7 +40,7 @@ A dusty-rose Morandi 16:9 deck for academic talks. Humanist, considered feel; pa
 | --- | --- |
 | ![Dusty Rose title page](assets/images/dusty_rose_title.png) | ![Dusty Rose content page](assets/images/dusty_rose_content.png) |
 
-- Download: [`templates/dusty_rose/KCLNLP_DustyRose.pptx`](templates/dusty_rose/KCLNLP_DustyRose.pptx)
+- Download: [`templates/dusty_rose/KCLNLP_DustyRose.potx`](templates/dusty_rose/KCLNLP_DustyRose.potx)
 - Same layouts as Sage Mist.
 - Main colors:
   - `#8A5E5A` — dusty-rose rail, slide-title underline rule, section numerals, footer accent
@@ -57,7 +57,7 @@ A faded-indigo Morandi 16:9 deck. Sober and grounded — the family's deepest, m
 | --- | --- |
 | ![Faded Indigo title page](assets/images/faded_indigo_title.png) | ![Faded Indigo content page](assets/images/faded_indigo_content.png) |
 
-- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo.pptx`](templates/faded_indigo/KCLNLP_FadedIndigo.pptx)
+- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo.potx`](templates/faded_indigo/KCLNLP_FadedIndigo.potx)
 - Same layouts as Sage Mist.
 - Main colors:
   - `#4F5E78` — faded-indigo rail, slide-title underline rule, section numerals, footer accent
@@ -74,7 +74,7 @@ A deep-plum Morandi 16:9 deck. Sober and scholarly without reading as cold or co
 | --- | --- |
 | ![Deep Plum title page](assets/images/deep_plum_title.png) | ![Deep Plum content page](assets/images/deep_plum_content.png) |
 
-- Download: [`templates/deep_plum/KCLNLP_DeepPlum.pptx`](templates/deep_plum/KCLNLP_DeepPlum.pptx)
+- Download: [`templates/deep_plum/KCLNLP_DeepPlum.potx`](templates/deep_plum/KCLNLP_DeepPlum.potx)
 - Same layouts as Sage Mist.
 - Main colors:
   - `#6F5C7A` — plum rail, slide-title underline rule, section numerals, footer accent
@@ -93,7 +93,7 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
   <img src="assets/images/sage_mist_poster.png" alt="Sage Mist A0 poster" width="360">
 </p>
 
-- Download: [`templates/sage_mist/KCLNLP_SageMist_Poster.pptx`](templates/sage_mist/KCLNLP_SageMist_Poster.pptx)
+- Download: [`templates/sage_mist/KCLNLP_SageMist_Poster.potx`](templates/sage_mist/KCLNLP_SageMist_Poster.potx)
 
 ### Dusty Rose poster
 
@@ -101,7 +101,7 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
   <img src="assets/images/dusty_rose_poster.png" alt="Dusty Rose A0 poster" width="360">
 </p>
 
-- Download: [`templates/dusty_rose/KCLNLP_DustyRose_Poster.pptx`](templates/dusty_rose/KCLNLP_DustyRose_Poster.pptx)
+- Download: [`templates/dusty_rose/KCLNLP_DustyRose_Poster.potx`](templates/dusty_rose/KCLNLP_DustyRose_Poster.potx)
 
 ### Faded Indigo poster
 
@@ -109,7 +109,7 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
   <img src="assets/images/faded_indigo_poster.png" alt="Faded Indigo A0 poster" width="360">
 </p>
 
-- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo_Poster.pptx`](templates/faded_indigo/KCLNLP_FadedIndigo_Poster.pptx)
+- Download: [`templates/faded_indigo/KCLNLP_FadedIndigo_Poster.potx`](templates/faded_indigo/KCLNLP_FadedIndigo_Poster.potx)
 
 ### Deep Plum poster
 
@@ -117,18 +117,18 @@ A0 portrait (841 × 1189 mm) single-page posters that match each deck's Side Rai
   <img src="assets/images/deep_plum_poster.png" alt="Deep Plum A0 poster" width="360">
 </p>
 
-- Download: [`templates/deep_plum/KCLNLP_DeepPlum_Poster.pptx`](templates/deep_plum/KCLNLP_DeepPlum_Poster.pptx)
+- Download: [`templates/deep_plum/KCLNLP_DeepPlum_Poster.potx`](templates/deep_plum/KCLNLP_DeepPlum_Poster.potx)
 
 ## HTML deck template
 
-A browser-based, single-file alternative to the pptx decks lives at
+A browser-based, single-file alternative to the PowerPoint decks lives at
 [`html-templates/editorial-serif/`](html-templates/editorial-serif/).
 Copy `template.html`, edit the slides inline, open in any browser —
 no build step. See the directory's own README for the full keyboard
 map and layout reference.
 
 Visual style: warm paper background, full serif typography, single brick-red
-accent — an "editorial / Atlantic" feel, distinct from the pptx decks' Morandi family.
+accent — an "editorial / Atlantic" feel, distinct from the PowerPoint decks' Morandi family.
 
 | Title page | Content page |
 | --- | --- |
@@ -136,8 +136,8 @@ accent — an "editorial / Atlantic" feel, distinct from the pptx decks' Morandi
 
 ## Usage
 
-1. Download the `.pptx` file for the template you want (deck or poster).
-2. Open in PowerPoint / Keynote / LibreOffice Impress.
+1. Download the `.potx` file for the template you want (deck or poster).
+2. Open in PowerPoint / Keynote / LibreOffice Impress — because it's a `.potx`, opening creates a fresh untitled deck rather than editing the template file itself.
 3. Replace the placeholder content with your own, keeping the side rail, the footer logos (decks) or header logos (posters), and the short brand-color rule beneath the slide title.
 4. The slide title sits in the body, not in a header band — just keep the short brand-color rule under it for visual consistency.
 5. For posters, swap the figure placeholder for your own chart and replace the QR-code box with a link to the paper / code.
