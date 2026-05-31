@@ -19,12 +19,12 @@ The original KCL-branded deck for the group — the canonical look. King's Colle
 
 A sage-green Morandi 16:9 deck for academic talks. Natural, restrained feel; pairs well with talks in computational linguistics, evaluation, and the empirical side of NLP.
 
-| Title page | Content page |
-| --- | --- |
-| ![Sage Mist title page](assets/images/sage_mist_title.png) | ![Sage Mist content page](assets/images/sage_mist_content.png) |
+| Title (plain) | Title (photo) | Content page |
+| --- | --- | --- |
+| ![Sage Mist plain title](assets/images/sage_mist_title.png) | ![Sage Mist photo title](assets/images/sage_mist_title_photo.png) | ![Sage Mist content page](assets/images/sage_mist_content.png) |
 
 - Download: [`templates/sage_mist/KCLNLP_SageMist.potx`](templates/sage_mist/KCLNLP_SageMist.potx)
-- Layouts included: title (left-aligned + centered), section divider with large numeral, content (title + bullets), content with TAKEAWAY callout overlay, numbered list (01 / 02 / 03), two-column (figure + text), pull-quote (Georgia italic), thanks / Q&A.
+- Layouts included: title (left-aligned + centered + photo), section divider with large numeral, content (title + bullets), content with TAKEAWAY callout overlay, numbered list (01 / 02 / 03), two-column (figure + text), pull-quote (Georgia italic), thanks / Q&A.
 - Main colors:
   - `#5C7261` — sage-green rail, slide-title underline rule, section numerals, footer accent
   - `#A7B5A0` — lighter sage for decorative rules and pull-quote glyphs
@@ -36,9 +36,9 @@ A sage-green Morandi 16:9 deck for academic talks. Natural, restrained feel; pai
 
 A dusty-rose Morandi 16:9 deck for academic talks. Humanist, considered feel; pairs well with talks in linguistics, language, and the social / cognitive side of NLP.
 
-| Title page | Content page |
-| --- | --- |
-| ![Dusty Rose title page](assets/images/dusty_rose_title.png) | ![Dusty Rose content page](assets/images/dusty_rose_content.png) |
+| Title (plain) | Title (photo) | Content page |
+| --- | --- | --- |
+| ![Dusty Rose plain title](assets/images/dusty_rose_title.png) | ![Dusty Rose photo title](assets/images/dusty_rose_title_photo.png) | ![Dusty Rose content page](assets/images/dusty_rose_content.png) |
 
 - Download: [`templates/dusty_rose/KCLNLP_DustyRose.potx`](templates/dusty_rose/KCLNLP_DustyRose.potx)
 - Same layouts as Sage Mist.
@@ -53,9 +53,9 @@ A dusty-rose Morandi 16:9 deck for academic talks. Humanist, considered feel; pa
 
 A faded-indigo Morandi 16:9 deck. Sober and grounded — the family's deepest, most "old book cover" voice. A deliberate alternative to a saturated corporate blue; reads cool but not cold, well suited to thesis-defence-style decks and formal seminars.
 
-| Title page | Content page |
-| --- | --- |
-| ![Faded Indigo title page](assets/images/faded_indigo_title.png) | ![Faded Indigo content page](assets/images/faded_indigo_content.png) |
+| Title (plain) | Title (photo) | Content page |
+| --- | --- | --- |
+| ![Faded Indigo plain title](assets/images/faded_indigo_title.png) | ![Faded Indigo photo title](assets/images/faded_indigo_title_photo.png) | ![Faded Indigo content page](assets/images/faded_indigo_content.png) |
 
 - Download: [`templates/faded_indigo/KCLNLP_FadedIndigo.potx`](templates/faded_indigo/KCLNLP_FadedIndigo.potx)
 - Same layouts as Sage Mist.
@@ -70,9 +70,9 @@ A faded-indigo Morandi 16:9 deck. Sober and grounded — the family's deepest, m
 
 A deep-plum Morandi 16:9 deck. Sober and scholarly without reading as cold or corporate; a deliberate alternative to a saturated blue for thesis-defence-style decks and formal seminars.
 
-| Title page | Content page |
-| --- | --- |
-| ![Deep Plum title page](assets/images/deep_plum_title.png) | ![Deep Plum content page](assets/images/deep_plum_content.png) |
+| Title (plain) | Title (photo) | Content page |
+| --- | --- | --- |
+| ![Deep Plum plain title](assets/images/deep_plum_title.png) | ![Deep Plum photo title](assets/images/deep_plum_title_photo.png) | ![Deep Plum content page](assets/images/deep_plum_content.png) |
 
 - Download: [`templates/deep_plum/KCLNLP_DeepPlum.potx`](templates/deep_plum/KCLNLP_DeepPlum.potx)
 - Same layouts as Sage Mist.
